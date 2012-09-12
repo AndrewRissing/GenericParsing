@@ -1,0 +1,31 @@
+Number of iterations of data [1 iteration = 10 rows]: 5000
+
+The following will generate performance information about the
+GenericParser class.
+
+Executions for each test: 10
+Rows of CSV Data:         50000
+Rows of FixedWidth Data:  50000
+
+<- Press Enter to Proceed ->
+
+Size of Csv data file:  6.91 mb
+
+Delimited         MS Text Driver - Avg. Time     2359.2 (ms) [    2.931 mb/s]
+Delimited   MS Text Field Parser - Avg. Time     2657.6 (ms) [    2.602 mb/s]
+Delimited          CsvReader 3.7 - Avg. Time      130.1 (ms) [   53.145 mb/s]
+Delimited      GenericParser 1.0 - Avg. Time      246.9 (ms) [   28.004 mb/s]
+Delimited      GenericParser 1.1 - Avg. Time      171.1 (ms) [   40.410 mb/s]
+
+============================================
+
+Size of FixedWidth data file:  8.39 mb
+
+FixedWidth        MS Text Driver - Avg. Time     2278.2 (ms) [    3.684 mb/s]
+FixedWidth  MS Text Field Parser - Avg. Time     2314.7 (ms) [    3.626 mb/s]
+FixedWidth     GenericParser 1.0 - Avg. Time      434.2 (ms) [   19.328 mb/s]
+FixedWidth     GenericParser 1.1 - Avg. Time      232.9 (ms) [   36.034 mb/s]
+
+Completed Performance testing.
+
+<- Press Enter to Exit ->

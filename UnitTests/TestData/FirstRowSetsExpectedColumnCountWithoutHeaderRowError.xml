@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GenericParser>
+  <MaxBufferSize>1024</MaxBufferSize>
+  <MaxRows>0</MaxRows>
+  <SkipStartingDataRows>0</SkipStartingDataRows>
+  <ExpectedColumnCount>0</ExpectedColumnCount>
+  <FirstRowHasHeader>False</FirstRowHasHeader>
+  <TrimResults>False</TrimResults>
+  <StripControlChars>False</StripControlChars>
+  <SkipEmptyRows>True</SkipEmptyRows>
+  <TextFieldType>Delimited</TextFieldType>
+  <FirstRowSetsExpectedColumnCount>True</FirstRowSetsExpectedColumnCount>
+  <ColumnDelimiter>44</ColumnDelimiter>
+  <TextQualifier>34</TextQualifier>
+  <EscapeCharacter>0</EscapeCharacter>
+  <CommentCharacter>35</CommentCharacter>
+  <IncludeFileLineNumber>False</IncludeFileLineNumber>
+  <SkipEndingDataRows>0</SkipEndingDataRows>
+</GenericParser>

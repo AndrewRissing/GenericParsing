@@ -1,0 +1,23 @@
+<NewDataSet>
+  <Table1>
+    <Column1>a</Column1>
+    <Column2>b"</Column2>
+    <Column3>c"c</Column3>
+    <Column4>d""d</Column4>
+    <Column5>e"e</Column5>
+    <Column6>""f</Column6>
+  </Table1>
+  <Table1>
+    <Column1>g,h,i",j,k,l</Column1>
+  </Table1>
+  <Table1>
+    <Column1>m</Column1>
+    <Column2>n"op""qr</Column2>
+    <Column3>s"tu""vw</Column3>
+    <Column4>"x""""""</Column4>
+  </Table1>
+  <Table1>
+    <Column1>y</Column1>
+    <Column2>z</Column2>
+  </Table1>
+</NewDataSet>

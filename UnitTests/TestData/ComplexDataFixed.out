@@ -1,0 +1,22 @@
+<NewDataSet>
+  <Table1>
+    <defg>	a	 </defg>
+    <hijk>b   </hijk>
+    <lmno>c   </lmno>
+  </Table1>
+  <Table1>
+    <defg>a   </defg>
+    <hijk>b\\ </hijk>
+    <lmno>c   </lmno>
+  </Table1>
+  <Table1>
+    <defg>a   </defg>
+    <hijk>b   </hijk>
+    <lmno>c   </lmno>
+  </Table1>
+  <Table1>
+    <defg>5   </defg>
+    <hijk>6   </hijk>
+    <lmno>7   </lmno>
+  </Table1>
+</NewDataSet>

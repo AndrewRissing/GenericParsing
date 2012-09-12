@@ -1,0 +1,34 @@
+<NewDataSet>
+  <Table1>
+    <Column1>a </Column1>
+    <Column2>b </Column2>
+  </Table1>
+  <Table1>
+    <Column1>1 </Column1>
+    <Column2>2 </Column2>
+  </Table1>
+  <Table1>
+    <Column1>g </Column1>
+    <Column2>h </Column2>
+  </Table1>
+  <Table1>
+    <Column1>7 </Column1>
+    <Column2>8 </Column2>
+  </Table1>
+  <Table1>
+    <Column1>m </Column1>
+    <Column2>n </Column2>
+  </Table1>
+  <Table1>
+    <Column1>1 </Column1>
+    <Column2>1 </Column2>
+  </Table1>
+  <Table1>
+    <Column1>t </Column1>
+    <Column2>u </Column2>
+  </Table1>
+  <Table1>
+    <Column1>1 </Column1>
+    <Column2>2 </Column2>
+  </Table1>
+</NewDataSet>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GenericParser>
+  <ColumnWidths>
+    <ColumnWidth>4</ColumnWidth>
+    <ColumnWidth>4</ColumnWidth>
+    <ColumnWidth>4</ColumnWidth>
+  </ColumnWidths>
+  <MaxBufferSize>50</MaxBufferSize>
+  <MaxRows>4</MaxRows>
+  <SkipStartingDataRows>3</SkipStartingDataRows>
+  <ExpectedColumnCount>3</ExpectedColumnCount>
+  <FirstRowHasHeader>True</FirstRowHasHeader>
+  <TrimResults>False</TrimResults>
+  <StripControlChars>False</StripControlChars>
+  <SkipEmptyRows>True</SkipEmptyRows>
+  <TextFieldType>FixedWidth</TextFieldType>
+  <FirstRowSetsExpectedColumnCount>False</FirstRowSetsExpectedColumnCount>
+  <TextQualifier>34</TextQualifier>
+  <EscapeCharacter>92</EscapeCharacter>
+  <CommentCharacter>35</CommentCharacter>
+  <IncludeFileLineNumber>False</IncludeFileLineNumber>
+  <SkipEndingDataRows>0</SkipEndingDataRows>
+</GenericParser>
