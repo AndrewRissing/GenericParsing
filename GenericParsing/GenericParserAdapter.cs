@@ -301,25 +301,18 @@ namespace GenericParsing
         {
             DataRow drRow;
             DataTable dtData;
-            int intCreatedColumns, intSkipRowsAtEnd;
+            int intSkipRowsAtEnd;
 
             dtData = new DataTable();
             dtData.BeginLoadData();
 
-            intCreatedColumns = 0;
+            this.m_intCreatedColumns = 0;
 
             while (this.Read())
             {
                 // See if we have the appropriate number of columns.
-                if (this.m_lstColumnNames.Count > intCreatedColumns)
-                {
-                    // Add in our column to store off the file line number.
-                    if (this.m_blnIncludeFileLineNumber && (intCreatedColumns < 1))
-                        dtData.Columns.Add(GenericParserAdapter.FILE_LINE_NUMBER);
-
-                    for (int intColumnIndex = intCreatedColumns; intColumnIndex < this.m_lstColumnNames.Count; ++intColumnIndex, ++intCreatedColumns)
-                        GenericParserAdapter.AddColumnToTable(dtData, this.m_lstColumnNames[intColumnIndex]);
-                }
+                if (this.m_lstColumnNames.Count > this.m_intCreatedColumns)
+                    this.CreateDataTableColumns(dtData);
 
                 if (!this.IsCurrentRowEmpty || !this.SkipEmptyRows)
                 {
@@ -343,6 +336,9 @@ namespace GenericParsing
                 }
             }
 
+            if (this.m_lstColumnNames.Count > this.m_intCreatedColumns)
+                this.CreateDataTableColumns(dtData);
+
             intSkipRowsAtEnd = this.m_intSkipEndingDataRows;
 
             // Remove any rows at the end that need to be skipped.
@@ -352,6 +348,16 @@ namespace GenericParsing
             dtData.EndLoadData();
 
             return dtData;
+        }
+
+        private void CreateDataTableColumns(DataTable dtData)
+        {
+            // Add in our column to store off the file line number.
+            if (this.m_blnIncludeFileLineNumber && (this.m_intCreatedColumns < 1))
+                dtData.Columns.Add(GenericParserAdapter.FILE_LINE_NUMBER);
+
+            for (int intColumnIndex = this.m_intCreatedColumns; intColumnIndex < this.m_lstColumnNames.Count; ++intColumnIndex, ++this.m_intCreatedColumns)
+                GenericParserAdapter.AddColumnToTable(dtData, this.m_lstColumnNames[intColumnIndex]);
         }
 
         /// <summary>
@@ -434,6 +440,7 @@ namespace GenericParsing
 
         private bool m_blnIncludeFileLineNumber;
         private int m_intSkipEndingDataRows;
+        private int m_intCreatedColumns;
 
         #endregion Private Code
     }

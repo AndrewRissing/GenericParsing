@@ -989,6 +989,33 @@ namespace GenericParsing.UnitTests
             }
 
             [TestMethod]
+            public void HeaderRowWithoutDataWithNewLine()
+            {
+                using (GenericParserAdapter gp = new GenericParserAdapter())
+                {
+                    gp.FirstRowHasHeader = true;
+
+                    Assert.IsTrue(gp.FirstRowHasHeader);
+
+                    using (StringReader sr = new StringReader("a,b,c,d\r\n"))
+                    {
+                        gp.SetDataSource(sr);
+
+                        using (DataTable dt = gp.GetDataTable())
+                        {
+                            Assert.IsNotNull(dt);
+                            Assert.AreEqual(4, dt.Columns.Count);
+                            Assert.AreEqual("a", dt.Columns[0].ColumnName);
+                            Assert.AreEqual("b", dt.Columns[1].ColumnName);
+                            Assert.AreEqual("c", dt.Columns[2].ColumnName);
+                            Assert.AreEqual("d", dt.Columns[3].ColumnName);
+                            Assert.AreEqual(0, dt.Rows.Count);
+                        }
+                    }
+                }
+            }
+
+            [TestMethod]
             public void HeaderRowWithoutDataAndIncludeFileLineNumber()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
