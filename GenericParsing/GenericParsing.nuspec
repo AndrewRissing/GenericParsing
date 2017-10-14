@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>GenericParser</id>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
     <authors>Andrew Rissing</authors>
     <owners>Andrew Rissing</owners>
     <licenseUrl>https://www.codeproject.com/info/cpol10.aspx</licenseUrl>
