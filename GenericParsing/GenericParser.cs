@@ -2160,18 +2160,15 @@ namespace GenericParsing
             // Determine if we have an empty row or not.
             this.m_blnIsCurrentRowEmpty &= blnIsColumnEmpty;
 
-            // Increment our file row counter to help with debugging in case of an error in syntax.
-            ++this.m_intFileRowNumber;
-
             // Make sure we don't have an empty row by seeing if we have some data somewhere.
             if (!this.m_blnIsCurrentRowEmpty || !this.m_blnSkipEmptyRows)
             {
-                if ((this.m_RowType == RowType.DataRow) || (this.m_RowType == RowType.SkippedRow))
-                    ++this.m_intDataRowNumber;
-
                 if ((!blnIsColumnEmpty || (!this.m_blnIsCurrentRowEmpty && (this.m_textFieldType == FieldType.Delimited)))
                  && ((this.m_RowType == RowType.DataRow) || (this.m_RowType == RowType.HeaderRow)))
                     this._ExtractColumn(intEndOfDataIndex);
+
+                if ((this.m_RowType == RowType.DataRow) || (this.m_RowType == RowType.SkippedRow))
+                    ++this.m_intDataRowNumber;
 
                 // Update the column specific flags.
                 this.m_blnFoundTextQualifierAtStart = false;
@@ -2195,6 +2192,9 @@ namespace GenericParsing
                 if (this.m_RowType == RowType.HeaderRow)
                     this._SetColumnNames();
             }
+
+            // Increment our file row counter to help with debugging in case of an error in syntax.
+            ++this.m_intFileRowNumber;
         }
         /// <summary>
         ///   Takes a range within the character buffer and extracts the desired
