@@ -88,6 +88,6 @@ using (GenericParser parser = new GenericParser(stream))
 ```csharp
 using (GenericParserAdapter parser = new GenericParserAdapter(filePath))
 {
-    dsResult = parser.GetDataSet();
+    var dsResult = parser.GetDataSet();
 }
 ```
