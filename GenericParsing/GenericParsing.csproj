@@ -1,31 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net452;net461</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Authors>Andrew Rissing</Authors>
     <Company>N/A</Company>
     <Owners>AndrewRissing</Owners>
     <Summary>The GenericParser is a robust C# implementation of a parser for delimited and fixed width format files.</Summary>
     <Description>The GenericParser is a robust C# implementation of a parser for delimited and fixed width format files.  It provides a variety of features (ex. custom delimiters, text qualifiers, loading/saving configuration from XML, and many more), performant, and thoroughly tested.</Description>
     <Copyright>Copyright © 2018 Andrew Rissing</Copyright>
-    <PackageLicenseUrl>https://www.codeproject.com/info/cpol10.aspx</PackageLicenseUrl>
+    <License>CPOL-1.02</License>
     <PackageProjectUrl>https://github.com/AndrewRissing/GenericParsing</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <PackageTags>GenericParsing Parsing CSV TSV Delimited</PackageTags>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
+    <AssemblyVersion>1.2.1.0</AssemblyVersion>
+    <FileVersion>1.2.1.0</FileVersion>
     <RepositoryUrl>https://github.com/AndrewRissing/GenericParsing</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>GenericParsing.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
-    <PackageReleaseNotes Condition="'$(Version)' == '1.2.0'">
-- Moved nuget package to GenericParsing (the GenericParser package is now deprecated).
+    <PackageReleaseNotes Condition="'$(Version)' == '1.2.1'">- Added new target frameworks (.NET 4.5.2, .NET 4.6.1).
+- Added Readme.md</PackageReleaseNotes> 
+    <PackageReleaseNotes Condition="'$(Version)' == '1.2.0'">- Moved nuget package to GenericParsing (the GenericParser package is now deprecated).
 - Migrated to .NET Standard 2.0.
-- Signed the GenericParsing assembly.
-    </PackageReleaseNotes>
+- Signed the GenericParsing assembly.</PackageReleaseNotes>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <None Include="GenericParsing.shfbproj" />
@@ -35,5 +35,4 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
-
 </Project>

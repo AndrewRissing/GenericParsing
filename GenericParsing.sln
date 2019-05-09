@@ -1,12 +1,14 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{936F8079-8AE8-4F7A-921C-9E44920F4B9E}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		GenericParsing.vsmdi = GenericParsing.vsmdi
+		LICENSE.md = LICENSE.md
 		localtestrun.testrunconfig = localtestrun.testrunconfig
+		README.md = README.md
 		SolutionVersionInfo.cs = SolutionVersionInfo.cs
 	EndProjectSection
 EndProject
