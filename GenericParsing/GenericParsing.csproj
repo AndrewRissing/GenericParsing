@@ -6,10 +6,11 @@
     <Authors>Andrew Rissing</Authors>
     <Company>N/A</Company>
     <Owners>AndrewRissing</Owners>
+    <Title>GenericParsing</Title>
     <Summary>The GenericParser is a robust C# implementation of a parser for delimited and fixed width format files.</Summary>
     <Description>The GenericParser is a robust C# implementation of a parser for delimited and fixed width format files.  It provides a variety of features (ex. custom delimiters, text qualifiers, loading/saving configuration from XML, and many more), performant, and thoroughly tested.</Description>
     <Copyright>Copyright © 2018 Andrew Rissing</Copyright>
-    <License>CPOL-1.02</License>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/AndrewRissing/GenericParsing</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <PackageTags>GenericParsing Parsing CSV TSV Delimited</PackageTags>
