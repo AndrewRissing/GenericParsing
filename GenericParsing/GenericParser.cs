@@ -1,5 +1,5 @@
 //  GenericParsing
-//  Copyright © 2018 Andrew Rissing
+//  Copyright Â© 2018 Andrew Rissing
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -995,7 +995,8 @@ namespace GenericParsing
                 this.m_txtReader.Dispose();
 
             this.m_ParserState = ParserState.Ready;
-            this.m_txtReader = new StreamReader(strFileName, encoding, true);
+            FileStream fs = new FileStream(strFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            this.m_txtReader = new StreamReader(fs, encoding, true);
         }
         /// <summary>
         ///   Sets the <see cref="TextReader"/> as the datasource.
