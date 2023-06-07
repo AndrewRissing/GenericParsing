@@ -676,7 +676,7 @@ namespace GenericParsing.UnitTests
 
                     // Checking using integers to index the columns.
                     Assert.AreEqual(null, parser["foobar"]);
-                    Assert.AreEqual("1", parser["a"]);                   
+                    Assert.AreEqual("1", parser["a"]);
                 }
 
                 // Check this without a header.
