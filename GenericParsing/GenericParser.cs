@@ -907,7 +907,7 @@ namespace GenericParsing
         ///   Gets the data found in the current row of data by the column index.
         /// </summary>
         /// <value>The value of the column at the given index.</value>
-        /// <param name="intColumnIndex">The index of the column to retreive.</param>
+        /// <param name="intColumnIndex">The index of the column to retrieve.</param>
         /// <remarks>
         ///   If the column is outside the bounds of the columns found or the column
         ///   does not possess a name, it will return <see langword="null"/>.
@@ -926,7 +926,7 @@ namespace GenericParsing
         ///   Gets the data found in the current row of data by the column name.
         /// </summary>
         /// <value>The value of the column with the given column name.</value>
-        /// <param name="strColumnName">The name of the column to retreive.</param>
+        /// <param name="strColumnName">The name of the column to retrieve.</param>
         /// <remarks>
         ///   If the header has yet to be parsed (or no header exists), the property will
         ///   return <see langword="null"/>.
