@@ -676,7 +676,7 @@ namespace GenericParsing.UnitTests
 
                     // Checking using integers to index the columns.
                     Assert.AreEqual(null, parser["foobar"]);
-                    Assert.AreEqual("1", parser["a"]);
+                    Assert.AreEqual("1", parser["a"]);                   
                 }
 
                 // Check this without a header.
@@ -695,6 +695,46 @@ namespace GenericParsing.UnitTests
                     // Checking using integers to index the columns.
                     Assert.AreEqual(null, parser["foobar"]);
                     Assert.AreEqual(null, parser["a"]);
+                }
+            }
+
+            [TestMethod]
+            public void BoundsCheckOnDataWithColumnNameComparisonMode()
+            {
+                using (GenericParserAdapter parser = new GenericParserAdapter())
+                {
+                    UnitTests._PrepParserForTest(parser, "ReadingInHeader");
+                    parser.ColumnNameComparisonMode = null;
+
+                    Assert.IsTrue(parser.Read());
+                    Assert.AreEqual("1", parser["a"]);
+                    Assert.AreEqual(null, parser["A"]);
+                    Assert.AreEqual("6", parser["f"]);
+                    Assert.AreEqual(null, parser["F"]);
+                }
+
+                using (GenericParserAdapter parser = new GenericParserAdapter())
+                {
+                    UnitTests._PrepParserForTest(parser, "ReadingInHeader");
+                    parser.ColumnNameComparisonMode = StringComparison.InvariantCulture;
+
+                    Assert.IsTrue(parser.Read());
+                    Assert.AreEqual("1", parser["a"]);
+                    Assert.AreEqual(null, parser["A"]);
+                    Assert.AreEqual("6", parser["f"]);
+                    Assert.AreEqual(null, parser["F"]);
+                }
+
+                using (GenericParserAdapter parser = new GenericParserAdapter())
+                {
+                    UnitTests._PrepParserForTest(parser, "ReadingInHeader");
+                    parser.ColumnNameComparisonMode = StringComparison.InvariantCultureIgnoreCase;
+
+                    Assert.IsTrue(parser.Read());
+                    Assert.AreEqual("1", parser["a"]);
+                    Assert.AreEqual("1", parser["A"]);
+                    Assert.AreEqual("6", parser["f"]);
+                    Assert.AreEqual("6", parser["F"]);
                 }
             }
 
