@@ -127,6 +127,7 @@ namespace GenericParsing
         private const string XML_MAX_ROWS = "MaxRows";
         private const string XML_SKIP_STARTING_DATA_ROWS = "SkipStartingDataRows";
         private const string XML_EXPECTED_COLUMN_COUNT = "ExpectedColumnCount";
+        private const string XML_COLUMN_NAME_COMPARISONMODE = "ColumnNameComparisonMode";
         private const string XML_FIRST_ROW_HAS_HEADER = "FirstRowHasHeader";
         private const string XML_TRIM_RESULTS = "TrimResults";
         private const string XML_STRIP_CONTROL_CHARS = "StripControlChars";
@@ -1391,6 +1392,13 @@ namespace GenericParsing
 
             /////////////////////////////////////////////////////////////
 
+            xmlElement = xmlConfig.DocumentElement[XML_COLUMN_NAME_COMPARISONMODE];
+
+            if ((xmlElement != null) && (xmlElement.InnerText != null) && Enum.TryParse<StringComparison>(xmlElement.InnerText, out var columnNameComparison))
+                this.ColumnNameComparisonMode = columnNameComparison;
+
+            /////////////////////////////////////////////////////////////
+
             xmlElement = xmlConfig.DocumentElement[XML_FIRST_ROW_HAS_HEADER];
 
             if ((xmlElement != null) && (xmlElement.InnerText != null))
@@ -1600,6 +1608,12 @@ namespace GenericParsing
 
             xmlElement = xmlConfig.CreateElement(XML_EXPECTED_COLUMN_COUNT);
             xmlElement.InnerText = this.m_intExpectedColumnCount.ToString();
+            xmlRoot.AppendChild(xmlElement);
+
+            /////////////////////////////////////////////////////////////
+
+            xmlElement = xmlConfig.CreateElement(XML_COLUMN_NAME_COMPARISONMODE);
+            xmlElement.InnerText = this.m_enColumnNameComparisonMode.ToString();
             xmlRoot.AppendChild(xmlElement);
 
             /////////////////////////////////////////////////////////////

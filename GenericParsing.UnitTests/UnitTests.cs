@@ -3,27 +3,27 @@
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights 
+//  in the Software without restriction, including without limitation the rights
 //  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do so, 
+//  of the Software, and to permit persons to whom the Software is furnished to do so,
 //  subject to the following conditions:
 //
-//  The above copyright notice and this permission notice shall be included in all 
+//  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 //  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-//  PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
+//  PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
 //  FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 //  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using Xunit;
 
 namespace GenericParsing.UnitTests
 {
@@ -43,34 +43,39 @@ namespace GenericParsing.UnitTests
 
         #region TestClasses
 
-        [TestClass]
         public class Properties
         {
-            [TestMethod]
-            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            [Fact]
             public void EmptyArrayColumnWidths()
             {
-                using (GenericParserAdapter gp = new GenericParserAdapter())
-                    gp.ColumnWidths = new int[0];
+                Assert.Throws<ArgumentOutOfRangeException>(() =>
+                {
+                    using (GenericParserAdapter gp = new GenericParserAdapter())
+                        gp.ColumnWidths = new int[0];
+                });
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            [Fact]
             public void InvalidArrayColumnWidths()
             {
-                using (GenericParserAdapter gp = new GenericParserAdapter())
-                    gp.ColumnWidths = new int[3] { 1, -2, 4 };
+                Assert.Throws<ArgumentOutOfRangeException>(() =>
+                {
+                    using (GenericParserAdapter gp = new GenericParserAdapter())
+                        gp.ColumnWidths = new int[3] { 1, -2, 4 };
+                });
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            [Fact]
             public void InvalidMaxBufferSize()
             {
-                using (GenericParserAdapter gp = new GenericParserAdapter())
-                    gp.MaxBufferSize = -1024;
+                Assert.Throws<ArgumentOutOfRangeException>(() =>
+                {
+                    using (GenericParserAdapter gp = new GenericParserAdapter())
+                        gp.MaxBufferSize = -1024;
+                });
             }
 
-            [TestMethod]
+            [Fact]
             public void OutOfBoundsValues()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
@@ -79,13 +84,13 @@ namespace GenericParsing.UnitTests
                     gp.SkipStartingDataRows = -2346;
                     gp.ExpectedColumnCount = -12312;
 
-                    Assert.AreEqual(0, gp.MaxRows);
-                    Assert.AreEqual(0, gp.SkipStartingDataRows);
-                    Assert.AreEqual(0, gp.ExpectedColumnCount);
+                    Assert.Equal(0, gp.MaxRows);
+                    Assert.Equal(0, gp.SkipStartingDataRows);
+                    Assert.Equal(0, gp.ExpectedColumnCount);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void FirstRowSetsExpectedColumnCountToTrue()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
@@ -93,19 +98,19 @@ namespace GenericParsing.UnitTests
                     gp.TextFieldType = FieldType.FixedWidth;
                     gp.ColumnWidths = new int[] { 1, 2, 3 };
 
-                    Assert.IsFalse(gp.FirstRowSetsExpectedColumnCount);
-                    Assert.AreEqual(gp.TextFieldType, FieldType.FixedWidth);
-                    Assert.IsNotNull(gp.ColumnWidths);
+                    Assert.False(gp.FirstRowSetsExpectedColumnCount);
+                    Assert.Equal(FieldType.FixedWidth, gp.TextFieldType);
+                    Assert.NotNull(gp.ColumnWidths);
 
                     gp.FirstRowSetsExpectedColumnCount = true;
 
-                    Assert.IsTrue(gp.FirstRowSetsExpectedColumnCount);
-                    Assert.AreEqual(gp.TextFieldType, FieldType.Delimited);
-                    Assert.IsNull(gp.ColumnWidths);
+                    Assert.True(gp.FirstRowSetsExpectedColumnCount);
+                    Assert.Equal(FieldType.Delimited, gp.TextFieldType);
+                    Assert.Null(gp.ColumnWidths);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void SettingExpectedColumnCount()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
@@ -113,19 +118,19 @@ namespace GenericParsing.UnitTests
                     gp.TextFieldType = FieldType.FixedWidth;
                     gp.ColumnWidths = new int[] { 1, 2, 4 };
 
-                    Assert.AreEqual(gp.TextFieldType, FieldType.FixedWidth);
-                    Assert.IsNotNull(gp.ColumnWidths);
-                    Assert.AreEqual(3, gp.ColumnWidths.Length);
+                    Assert.Equal(FieldType.FixedWidth, gp.TextFieldType);
+                    Assert.NotNull(gp.ColumnWidths);
+                    Assert.Equal(3, gp.ColumnWidths.Length);
 
                     gp.ExpectedColumnCount = 4;
 
-                    Assert.AreEqual(gp.TextFieldType, FieldType.Delimited);
-                    Assert.IsNull(gp.ColumnWidths);
-                    Assert.AreEqual(4, gp.ExpectedColumnCount);
+                    Assert.Equal(FieldType.Delimited, gp.TextFieldType);
+                    Assert.Null(gp.ColumnWidths);
+                    Assert.Equal(4, gp.ExpectedColumnCount);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void FixedWidthToTrue()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
@@ -134,19 +139,19 @@ namespace GenericParsing.UnitTests
                     gp.FirstRowSetsExpectedColumnCount = true;
                     gp.ColumnDelimiter = ',';
 
-                    Assert.AreEqual(gp.TextFieldType, FieldType.Delimited);
-                    Assert.IsTrue(gp.FirstRowSetsExpectedColumnCount);
-                    Assert.IsNotNull(gp.ColumnDelimiter);
+                    Assert.Equal(FieldType.Delimited, gp.TextFieldType);
+                    Assert.True(gp.FirstRowSetsExpectedColumnCount);
+                    Assert.NotNull(gp.ColumnDelimiter);
 
                     gp.TextFieldType = FieldType.FixedWidth;
 
-                    Assert.AreEqual(gp.TextFieldType, FieldType.FixedWidth);
-                    Assert.IsFalse(gp.FirstRowSetsExpectedColumnCount);
-                    Assert.IsNull(gp.ColumnDelimiter);
+                    Assert.Equal(FieldType.FixedWidth, gp.TextFieldType);
+                    Assert.False(gp.FirstRowSetsExpectedColumnCount);
+                    Assert.Null(gp.ColumnDelimiter);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void ClearingColumnWidths()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
@@ -154,18 +159,18 @@ namespace GenericParsing.UnitTests
                     gp.TextFieldType = FieldType.FixedWidth;
                     gp.ColumnWidths = new int[] { 1, 2, 3 };
 
-                    Assert.AreEqual(gp.TextFieldType, FieldType.FixedWidth);
-                    Assert.IsNotNull(gp.ColumnWidths);
-                    Assert.AreEqual(3, gp.ColumnWidths.Length);
+                    Assert.Equal(FieldType.FixedWidth, gp.TextFieldType);
+                    Assert.NotNull(gp.ColumnWidths);
+                    Assert.Equal(3, gp.ColumnWidths.Length);
 
                     gp.ColumnWidths = null;
 
-                    Assert.AreEqual(gp.TextFieldType, FieldType.Delimited);
-                    Assert.IsNull(gp.ColumnWidths);
+                    Assert.Equal(FieldType.Delimited, gp.TextFieldType);
+                    Assert.Null(gp.ColumnWidths);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void NotUpdatingDuringParse()
             {
                 Action<GenericParserAdapter>[] testActions;
@@ -206,7 +211,7 @@ namespace GenericParsing.UnitTests
                         gp.SetDataSource(sr);
 
                         // Read the first row to get us into the parsing state.
-                        Assert.IsTrue(gp.Read());
+                        Assert.True(gp.Read());
 
                         // Iterate through each delegate and make sure it throws an exception.
                         foreach (Action<GenericParserAdapter> action in testActions)
@@ -227,7 +232,7 @@ namespace GenericParsing.UnitTests
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void ColumnCountAndLargestColumnCountConstant()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
@@ -238,14 +243,14 @@ namespace GenericParsing.UnitTests
 
                         while (gp.Read())
                         {
-                            Assert.AreEqual(3, gp.ColumnCount);
-                            Assert.AreEqual(3, gp.LargestColumnCount);
+                            Assert.Equal(3, gp.ColumnCount);
+                            Assert.Equal(3, gp.LargestColumnCount);
                         }
                     }
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void ColumnCountAndLargestColumnCountChanging()
             {
                 const int NUMBER_OF_ROWS = 100;
@@ -273,15 +278,15 @@ namespace GenericParsing.UnitTests
 
                         for (int intRow = 1; intRow <= NUMBER_OF_ROWS; ++intRow)
                         {
-                            Assert.IsTrue(gp.Read());
-                            Assert.AreEqual(intRow, gp.ColumnCount);
-                            Assert.AreEqual(intRow, gp.LargestColumnCount);
+                            Assert.True(gp.Read());
+                            Assert.Equal(intRow, gp.ColumnCount);
+                            Assert.Equal(intRow, gp.LargestColumnCount);
                         }
                     }
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void ProtectedArrayProperties()
             {
                 int[] intArray;
@@ -291,15 +296,15 @@ namespace GenericParsing.UnitTests
                     intArray = new int[] { 1, 2, 3, 4, 5 };
                     gp.ColumnWidths = intArray;
 
-                    Assert.AreNotSame(intArray, gp.ColumnWidths);
-                    Assert.AreEqual(intArray.Length, gp.ColumnWidths.Length);
+                    Assert.NotSame(intArray, gp.ColumnWidths);
+                    Assert.Equal(intArray.Length, gp.ColumnWidths.Length);
 
                     for (int i = 0; i < intArray.Length; ++i)
-                        Assert.AreEqual(intArray[i], gp.ColumnWidths[i]);
+                        Assert.Equal(intArray[i], gp.ColumnWidths[i]);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void ExpectedColumnCountExceptionAtEndOfRowAndFileRowNumber()
             {
                 string inputData = @"A;B;C;""D; "";E
@@ -319,16 +324,16 @@ namespace GenericParsing.UnitTests
                     try
                     {
                         parser.GetDataTable();
-                        Assert.Fail();
+                        Assert.Fail("You should not get here");
                     }
                     catch (ParsingException ex)
                     {
-                        Assert.AreEqual(2, ex.FileRowNumber);
+                        Assert.Equal(2, ex.FileRowNumber);
                     }
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void ExpectedColumnCountExceptionInMiddleOfRowAndFileRowNumber()
             {
                 string inputData = @"A;B;C;""D; "";E
@@ -348,134 +353,151 @@ namespace GenericParsing.UnitTests
                     try
                     {
                         parser.GetDataTable();
-                        Assert.Fail();
+                        Assert.Fail("You should not get here");
                     }
                     catch (ParsingException ex)
                     {
-                        Assert.AreEqual(2, ex.FileRowNumber);
+                        Assert.Equal(2, ex.FileRowNumber);
                     }
                 }
             }
         }
 
-        [TestClass]
         public class Miscellaneous
         {
-            [TestMethod]
-            [ExpectedException(typeof(InvalidOperationException))]
+            [Fact]
             public void NoDataSource()
             {
-                using (GenericParserAdapter parser = new GenericParserAdapter())
-                    parser.Read();
+                Assert.Throws<InvalidOperationException>(() =>
+                {
+                    using (GenericParserAdapter parser = new GenericParserAdapter())
+                        parser.Read();
+                });
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(ObjectDisposedException))]
+            [Fact]
             public void SettingDataSourceTwice()
             {
-                using (GenericParserAdapter parser = new GenericParserAdapter())
+                Assert.Throws<ObjectDisposedException>(() =>
                 {
-                    using (StringReader sr1 = new StringReader("abc"),
-                                        sr2 = new StringReader("def"))
+                    using (GenericParserAdapter parser = new GenericParserAdapter())
                     {
-                        parser.SetDataSource(sr1);
-                        parser.SetDataSource(sr2);
+                        using (StringReader sr1 = new StringReader("abc"),
+                                            sr2 = new StringReader("def"))
+                        {
+                            parser.SetDataSource(sr1);
+                            parser.SetDataSource(sr2);
 
-                        // sr1 should be dispose, so accessing it should throw an exception.
-                        sr1.ReadToEnd();
+                            // sr1 should be dispose, so accessing it should throw an exception.
+                            sr1.ReadToEnd();
+                        }
                     }
-                }
+                });
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(ParsingException))]
+            [Fact]
             public void BufferTooSmall()
             {
-                using (GenericParserAdapter parser = new GenericParserAdapter())
+                Assert.Throws<ParsingException>(() =>
                 {
-                    using (StringReader srInput = new StringReader("1,222222,3,4,5,6,7"))
+                    using (GenericParserAdapter parser = new GenericParserAdapter())
                     {
-                        parser.MaxBufferSize = 5;
-                        parser.SetDataSource(srInput);
-                        parser.Read();
+                        using (StringReader srInput = new StringReader("1,222222,3,4,5,6,7"))
+                        {
+                            parser.MaxBufferSize = 5;
+                            parser.SetDataSource(srInput);
+                            parser.Read();
+                        }
                     }
-                }
+                });
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(InvalidOperationException))]
+            [Fact]
             public void DelimitedWithoutSetup()
             {
-                using (GenericParserAdapter parser = new GenericParserAdapter())
+                Assert.Throws<InvalidOperationException>(() =>
                 {
-                    using (StringReader srInput = new StringReader("Data that will never be read."))
+                    using (GenericParserAdapter parser = new GenericParserAdapter())
                     {
-                        parser.TextFieldType = FieldType.Delimited;
-                        parser.ColumnDelimiter = null;
+                        using (StringReader srInput = new StringReader("Data that will never be read."))
+                        {
+                            parser.TextFieldType = FieldType.Delimited;
+                            parser.ColumnDelimiter = null;
 
-                        parser.Read();
+                            parser.Read();
+                        }
                     }
-                }
+                });
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(InvalidOperationException))]
+            [Fact]
             public void FixedWidthWithoutSetup()
             {
-                using (GenericParserAdapter parser = new GenericParserAdapter())
+                Assert.Throws<InvalidOperationException>(() =>
                 {
-                    using (StringReader srInput = new StringReader("Data that will never be read."))
+                    using (GenericParserAdapter parser = new GenericParserAdapter())
                     {
-                        parser.TextFieldType = FieldType.FixedWidth;
-                        parser.SetDataSource(srInput);
+                        using (StringReader srInput = new StringReader("Data that will never be read."))
+                        {
+                            parser.TextFieldType = FieldType.FixedWidth;
+                            parser.SetDataSource(srInput);
 
-                        parser.Read();
+                            parser.Read();
+                        }
                     }
-                }
+                });
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(ParsingException))]
+            [Fact]
             public void TooManyColumnsInFixedWidth()
             {
-                using (GenericParserAdapter parser = new GenericParserAdapter())
+                Assert.Throws<ParsingException>(() =>
                 {
-                    using (StringReader srInput = new StringReader("1 2 3 4 5"))
+                    using (GenericParserAdapter parser = new GenericParserAdapter())
                     {
-                        parser.TextFieldType = FieldType.FixedWidth;
-                        parser.ColumnWidths = new int[4] { 2, 2, 2, 2 };
-                        parser.SetDataSource(srInput);
+                        using (StringReader srInput = new StringReader("1 2 3 4 5"))
+                        {
+                            parser.TextFieldType = FieldType.FixedWidth;
+                            parser.ColumnWidths = new int[4] { 2, 2, 2, 2 };
+                            parser.SetDataSource(srInput);
 
-                        parser.Read();
+                            parser.Read();
+                        }
                     }
-                }
+                });
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(ArgumentNullException))]
+            [Fact]
             public void NullFileName()
             {
-                using (GenericParserAdapter parser = new GenericParserAdapter())
-                    parser.SetDataSource((string)null);
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    using (GenericParserAdapter parser = new GenericParserAdapter())
+                        parser.SetDataSource((string)null);
+                });
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(ArgumentException))]
+            [Fact]
             public void NonExistentFile()
             {
-                using (GenericParserAdapter parser = new GenericParserAdapter())
-                    parser.SetDataSource(@"C:\1234\5678\910ajb.txt");
+                Assert.Throws<ArgumentException>(() =>
+                {
+                    using (GenericParserAdapter parser = new GenericParserAdapter())
+                        parser.SetDataSource(@"C:\1234\5678\910ajb.txt");
+                });
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(ArgumentNullException))]
+            [Fact]
             public void NullTextReader()
             {
-                using (GenericParserAdapter parser = new GenericParserAdapter())
-                    parser.SetDataSource((TextReader)null);
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    using (GenericParserAdapter parser = new GenericParserAdapter())
+                        parser.SetDataSource((TextReader)null);
+                });
             }
 
-            [TestMethod]
+            [Fact]
             public void LoadingSavingDelimited()
             {
                 using (GenericParserAdapter parserA = new GenericParserAdapter(),
@@ -500,26 +522,26 @@ namespace GenericParsing.UnitTests
 
                     parserB.Load(parserA.Save());
 
-                    Assert.AreEqual<char?>(parserA.ColumnDelimiter, parserB.ColumnDelimiter);
-                    Assert.AreEqual<char?>(parserA.CommentCharacter, parserB.CommentCharacter);
-                    Assert.AreEqual<char?>(parserA.EscapeCharacter, parserB.EscapeCharacter);
-                    Assert.AreEqual(parserA.StripControlChars, parserB.StripControlChars);
-                    Assert.AreEqual(parserA.SkipEmptyRows, parserB.SkipEmptyRows);
-                    Assert.AreEqual(parserA.FirstRowSetsExpectedColumnCount, parserB.FirstRowSetsExpectedColumnCount);
-                    Assert.AreEqual(parserA.ExpectedColumnCount, parserB.ExpectedColumnCount);
-                    Assert.AreEqual(parserA.FirstRowHasHeader, parserB.FirstRowHasHeader);
-                    Assert.AreEqual(parserA.TextFieldType, parserB.TextFieldType);
-                    Assert.AreEqual(parserA.IncludeFileLineNumber, parserB.IncludeFileLineNumber);
-                    Assert.AreEqual(parserA.MaxBufferSize, parserB.MaxBufferSize);
-                    Assert.AreEqual(parserA.MaxRows, parserB.MaxRows);
-                    Assert.AreEqual(parserA.SkipStartingDataRows, parserB.SkipStartingDataRows);
-                    Assert.AreEqual(parserA.SkipEndingDataRows, parserB.SkipEndingDataRows);
-                    Assert.AreEqual(parserA.TextQualifier, parserB.TextQualifier);
-                    Assert.AreEqual(parserA.TrimResults, parserB.TrimResults);
+                    Assert.Equal<char?>(parserA.ColumnDelimiter, parserB.ColumnDelimiter);
+                    Assert.Equal<char?>(parserA.CommentCharacter, parserB.CommentCharacter);
+                    Assert.Equal<char?>(parserA.EscapeCharacter, parserB.EscapeCharacter);
+                    Assert.Equal(parserA.StripControlChars, parserB.StripControlChars);
+                    Assert.Equal(parserA.SkipEmptyRows, parserB.SkipEmptyRows);
+                    Assert.Equal(parserA.FirstRowSetsExpectedColumnCount, parserB.FirstRowSetsExpectedColumnCount);
+                    Assert.Equal(parserA.ExpectedColumnCount, parserB.ExpectedColumnCount);
+                    Assert.Equal(parserA.FirstRowHasHeader, parserB.FirstRowHasHeader);
+                    Assert.Equal(parserA.TextFieldType, parserB.TextFieldType);
+                    Assert.Equal(parserA.IncludeFileLineNumber, parserB.IncludeFileLineNumber);
+                    Assert.Equal(parserA.MaxBufferSize, parserB.MaxBufferSize);
+                    Assert.Equal(parserA.MaxRows, parserB.MaxRows);
+                    Assert.Equal(parserA.SkipStartingDataRows, parserB.SkipStartingDataRows);
+                    Assert.Equal(parserA.SkipEndingDataRows, parserB.SkipEndingDataRows);
+                    Assert.Equal(parserA.TextQualifier, parserB.TextQualifier);
+                    Assert.Equal(parserA.TrimResults, parserB.TrimResults);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void LoadingSavingFixedWidth()
             {
                 using (GenericParserAdapter parserA = new GenericParserAdapter(),
@@ -544,30 +566,30 @@ namespace GenericParsing.UnitTests
 
                     parserB.Load(parserA.Save());
 
-                    Assert.AreEqual(parserA.ColumnWidths.Length, parserB.ColumnWidths.Length);
+                    Assert.Equal(parserA.ColumnWidths.Length, parserB.ColumnWidths.Length);
 
                     for (int i = 0; i < parserA.ColumnWidths.Length; ++i)
-                        Assert.AreEqual(parserA.ColumnWidths[i], parserB.ColumnWidths[i]);
+                        Assert.Equal(parserA.ColumnWidths[i], parserB.ColumnWidths[i]);
 
-                    Assert.AreEqual(parserA.CommentCharacter, parserB.CommentCharacter);
-                    Assert.AreEqual(parserA.EscapeCharacter, parserB.EscapeCharacter);
-                    Assert.AreEqual(parserA.StripControlChars, parserB.StripControlChars);
-                    Assert.AreEqual(parserA.SkipEmptyRows, parserB.SkipEmptyRows);
-                    Assert.AreEqual(parserA.FirstRowSetsExpectedColumnCount, parserB.FirstRowSetsExpectedColumnCount);
-                    Assert.AreEqual(parserA.ExpectedColumnCount, parserB.ExpectedColumnCount);
-                    Assert.AreEqual(parserA.FirstRowHasHeader, parserB.FirstRowHasHeader);
-                    Assert.AreEqual(parserA.TextFieldType, parserB.TextFieldType);
-                    Assert.AreEqual(parserA.IncludeFileLineNumber, parserB.IncludeFileLineNumber);
-                    Assert.AreEqual(parserA.MaxBufferSize, parserB.MaxBufferSize);
-                    Assert.AreEqual(parserA.MaxRows, parserB.MaxRows);
-                    Assert.AreEqual(parserA.SkipStartingDataRows, parserB.SkipStartingDataRows);
-                    Assert.AreEqual(parserA.SkipEndingDataRows, parserB.SkipEndingDataRows);
-                    Assert.AreEqual(parserA.TextQualifier, parserB.TextQualifier);
-                    Assert.AreEqual(parserA.TrimResults, parserB.TrimResults);
+                    Assert.Equal(parserA.CommentCharacter, parserB.CommentCharacter);
+                    Assert.Equal(parserA.EscapeCharacter, parserB.EscapeCharacter);
+                    Assert.Equal(parserA.StripControlChars, parserB.StripControlChars);
+                    Assert.Equal(parserA.SkipEmptyRows, parserB.SkipEmptyRows);
+                    Assert.Equal(parserA.FirstRowSetsExpectedColumnCount, parserB.FirstRowSetsExpectedColumnCount);
+                    Assert.Equal(parserA.ExpectedColumnCount, parserB.ExpectedColumnCount);
+                    Assert.Equal(parserA.FirstRowHasHeader, parserB.FirstRowHasHeader);
+                    Assert.Equal(parserA.TextFieldType, parserB.TextFieldType);
+                    Assert.Equal(parserA.IncludeFileLineNumber, parserB.IncludeFileLineNumber);
+                    Assert.Equal(parserA.MaxBufferSize, parserB.MaxBufferSize);
+                    Assert.Equal(parserA.MaxRows, parserB.MaxRows);
+                    Assert.Equal(parserA.SkipStartingDataRows, parserB.SkipStartingDataRows);
+                    Assert.Equal(parserA.SkipEndingDataRows, parserB.SkipEndingDataRows);
+                    Assert.Equal(parserA.TextQualifier, parserB.TextQualifier);
+                    Assert.Equal(parserA.TrimResults, parserB.TrimResults);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void Reusability()
             {
                 string strExpectedResult;
@@ -582,10 +604,10 @@ namespace GenericParsing.UnitTests
                         {
                             dsResult.WriteXml(swProducedResult);
 
-                            Assert.AreEqual(strExpectedResult, swProducedResult.ToString());
+                            Assert.Equal(strExpectedResult, swProducedResult.ToString());
 
                             parser.Close();
-                            Assert.IsTrue(parser.State == ParserState.Finished);
+                            Assert.True(parser.State == ParserState.Finished);
                         }
                     }
 
@@ -599,22 +621,16 @@ namespace GenericParsing.UnitTests
                         {
                             dsResult.WriteXml(swProducedResult);
 
-                            Assert.AreEqual(strExpectedResult, swProducedResult.ToString());
+                            Assert.Equal(strExpectedResult, swProducedResult.ToString());
 
                             parser.Close();
-                            Assert.IsTrue(parser.State == ParserState.Finished);
+                            Assert.True(parser.State == ParserState.Finished);
                         }
                     }
                 }
             }
 
-            [TestMethod]
-            public void Disposing()
-            {
-                UnitTests._ValidateResults("SimpleDelimiter");
-            }
-
-            [TestMethod]
+            [Fact]
             public void BoundsCheckOnColumns()
             {
                 string strExpectedResult;
@@ -625,16 +641,16 @@ namespace GenericParsing.UnitTests
                     strExpectedResult = UnitTests._PrepParserForTest(parser, "ReadingInHeader");
 
                     // Make sure we are able to read one row of data.
-                    Assert.IsTrue(parser.Read());
+                    Assert.True(parser.Read());
 
                     // Checking using integers to index the columns.
-                    Assert.AreEqual(null, parser.GetColumnName(-3));
-                    Assert.AreEqual(null, parser.GetColumnName(30));
-                    Assert.AreEqual("a", parser.GetColumnName(0));
+                    Assert.Null(parser.GetColumnName(-3));
+                    Assert.Null(parser.GetColumnName(30));
+                    Assert.Equal("a", parser.GetColumnName(0));
 
                     // Checking using integers to index the columns.
-                    Assert.AreEqual(0, parser.GetColumnIndex("a"));
-                    Assert.AreEqual(-1, parser.GetColumnIndex("foobar"));
+                    Assert.Equal(0, parser.GetColumnIndex("a"));
+                    Assert.Equal(-1, parser.GetColumnIndex("foobar"));
                 }
 
                 // Check this without a header.
@@ -643,20 +659,20 @@ namespace GenericParsing.UnitTests
                     strExpectedResult = UnitTests._PrepParserForTest(parser, "SimpleDelimiter");
 
                     // Make sure we are able to read one row of data.
-                    Assert.IsTrue(parser.Read());
+                    Assert.True(parser.Read());
 
                     // Checking using integers to index the columns.
-                    Assert.AreEqual(null, parser.GetColumnName(-3));
-                    Assert.AreEqual(null, parser.GetColumnName(30));
-                    Assert.AreEqual(null, parser.GetColumnName(0));
+                    Assert.Null(parser.GetColumnName(-3));
+                    Assert.Null(parser.GetColumnName(30));
+                    Assert.Null(parser.GetColumnName(0));
 
                     // Checking using integers to index the columns.
-                    Assert.AreEqual(-1, parser.GetColumnIndex("a"));
-                    Assert.AreEqual(-1, parser.GetColumnIndex("foobar"));
+                    Assert.Equal(-1, parser.GetColumnIndex("a"));
+                    Assert.Equal(-1, parser.GetColumnIndex("foobar"));
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void BoundsCheckOnData()
             {
                 string strExpectedResult;
@@ -667,16 +683,16 @@ namespace GenericParsing.UnitTests
                     strExpectedResult = UnitTests._PrepParserForTest(parser, "ReadingInHeader");
 
                     // Make sure we are able to read one row of data.
-                    Assert.IsTrue(parser.Read());
+                    Assert.True(parser.Read());
 
                     // Checking using integers to index the columns.
-                    Assert.AreEqual(null, parser[-1]);
-                    Assert.AreEqual(null, parser[10]);
-                    Assert.AreEqual("3", parser[2]);
+                    Assert.Null(parser[-1]);
+                    Assert.Null(parser[10]);
+                    Assert.Equal("3", parser[2]);
 
                     // Checking using integers to index the columns.
-                    Assert.AreEqual(null, parser["foobar"]);
-                    Assert.AreEqual("1", parser["a"]);
+                    Assert.Null(parser["foobar"]);
+                    Assert.Equal("1", parser["a"]);
                 }
 
                 // Check this without a header.
@@ -685,20 +701,20 @@ namespace GenericParsing.UnitTests
                     strExpectedResult = UnitTests._PrepParserForTest(parser, "SimpleDelimiter");
 
                     // Make sure we are able to read one row of data.
-                    Assert.IsTrue(parser.Read());
+                    Assert.True(parser.Read());
 
                     // Checking using integers to index the columns.
-                    Assert.AreEqual(null, parser[-1]);
-                    Assert.AreEqual(null, parser[10]);
-                    Assert.AreEqual("c", parser[2]);
+                    Assert.Null(parser[-1]);
+                    Assert.Null(parser[10]);
+                    Assert.Equal("c", parser[2]);
 
                     // Checking using integers to index the columns.
-                    Assert.AreEqual(null, parser["foobar"]);
-                    Assert.AreEqual(null, parser["a"]);
+                    Assert.Null(parser["foobar"]);
+                    Assert.Null(parser["a"]);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void BoundsCheckOnDataWithColumnNameComparisonMode()
             {
                 using (GenericParserAdapter parser = new GenericParserAdapter())
@@ -706,11 +722,11 @@ namespace GenericParsing.UnitTests
                     UnitTests._PrepParserForTest(parser, "ReadingInHeader");
                     parser.ColumnNameComparisonMode = null;
 
-                    Assert.IsTrue(parser.Read());
-                    Assert.AreEqual("1", parser["a"]);
-                    Assert.AreEqual(null, parser["A"]);
-                    Assert.AreEqual("6", parser["f"]);
-                    Assert.AreEqual(null, parser["F"]);
+                    Assert.True(parser.Read());
+                    Assert.Equal("1", parser["a"]);
+                    Assert.Null(parser["A"]);
+                    Assert.Equal("6", parser["f"]);
+                    Assert.Null(parser["F"]);
                 }
 
                 using (GenericParserAdapter parser = new GenericParserAdapter())
@@ -718,11 +734,11 @@ namespace GenericParsing.UnitTests
                     UnitTests._PrepParserForTest(parser, "ReadingInHeader");
                     parser.ColumnNameComparisonMode = StringComparison.InvariantCulture;
 
-                    Assert.IsTrue(parser.Read());
-                    Assert.AreEqual("1", parser["a"]);
-                    Assert.AreEqual(null, parser["A"]);
-                    Assert.AreEqual("6", parser["f"]);
-                    Assert.AreEqual(null, parser["F"]);
+                    Assert.True(parser.Read());
+                    Assert.Equal("1", parser["a"]);
+                    Assert.Null(parser["A"]);
+                    Assert.Equal("6", parser["f"]);
+                    Assert.Null(parser["F"]);
                 }
 
                 using (GenericParserAdapter parser = new GenericParserAdapter())
@@ -730,15 +746,15 @@ namespace GenericParsing.UnitTests
                     UnitTests._PrepParserForTest(parser, "ReadingInHeader");
                     parser.ColumnNameComparisonMode = StringComparison.InvariantCultureIgnoreCase;
 
-                    Assert.IsTrue(parser.Read());
-                    Assert.AreEqual("1", parser["a"]);
-                    Assert.AreEqual("1", parser["A"]);
-                    Assert.AreEqual("6", parser["f"]);
-                    Assert.AreEqual("6", parser["F"]);
+                    Assert.True(parser.Read());
+                    Assert.Equal("1", parser["a"]);
+                    Assert.Equal("1", parser["A"]);
+                    Assert.Equal("6", parser["f"]);
+                    Assert.Equal("6", parser["F"]);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void NotStrippingControlCharactersInEscapedText()
             {
                 const string INPUT = "[	\\\"	],\"[	\\\"	]\"";
@@ -748,14 +764,14 @@ namespace GenericParsing.UnitTests
                 {
                     gp.EscapeCharacter = '\\';
 
-                    Assert.IsTrue(gp.Read());
-                    Assert.AreEqual<int>(2, gp.ColumnCount);
-                    Assert.AreEqual<string>("[	\"	]", gp[0]);
-                    Assert.AreEqual<string>("[	\"	]", gp[1]);
+                    Assert.True(gp.Read());
+                    Assert.Equal<int>(2, gp.ColumnCount);
+                    Assert.Equal("[	\"	]", gp[0]);
+                    Assert.Equal("[	\"	]", gp[1]);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void HandlingShortInput()
             {
                 const string INPUT = "abcd";
@@ -763,55 +779,59 @@ namespace GenericParsing.UnitTests
                 using (StringReader sr = new StringReader(INPUT))
                 using (GenericParser gp = new GenericParser(sr))
                 {
-                    Assert.IsTrue(gp.Read());
-                    Assert.AreEqual<int>(1, gp.ColumnCount);
-                    Assert.AreEqual<string>(INPUT, gp[0]);
+                    Assert.True(gp.Read());
+                    Assert.Equal<int>(1, gp.ColumnCount);
+                    Assert.Equal(INPUT, gp[0]);
                 }
             }
 
-            [TestMethod]
-            [ExpectedException(typeof(ArgumentNullException))]
+            [Fact]
             public void SetDataSourceNullEncoding()
             {
                 const string TEST_FILE = "Test.txt";
 
-                try
+                Assert.Throws<ArgumentNullException>(() =>
                 {
-                    File.WriteAllText(TEST_FILE, "Blah blah blah");
-
-                    // Check this with a header.
-                    using (GenericParserAdapter parser = new GenericParserAdapter())
+                    try
                     {
-                        parser.SetDataSource(TEST_FILE, null);
-                    }
-                }
-                finally
-                {
-                    File.Delete(TEST_FILE);
-                }
-            }
+                        File.WriteAllText(TEST_FILE, "Blah blah blah");
 
-            [TestMethod]
-            [ExpectedException(typeof(ObjectDisposedException))]
-            public void SpecializedConstructors()
-            {
-                using (StringReader sr = new StringReader(string.Format("a,b,c,d{0}1,2,3,4{0}", Environment.NewLine)))
-                {
-                    using (GenericParserAdapter parser = new GenericParserAdapter(sr))
-                    {
-                        using (DataTable dtResult = parser.GetDataTable())
+                        // Check this with a header.
+                        using (GenericParserAdapter parser = new GenericParserAdapter())
                         {
-                            Assert.AreEqual(1, dtResult.Select("[Column1] = 'a' AND [Column2] = 'b' AND [Column3] = 'c' AND [Column4] = 'd'").Length);
-                            Assert.AreEqual(1, dtResult.Select("[Column1] = '1' AND [Column2] = '2' AND [Column3] = '3' AND [Column4] = '4'").Length);
+                            parser.SetDataSource(TEST_FILE, null);
                         }
                     }
-
-                    // This should throw an ObjectDisposedException.
-                    sr.Peek();
-                }
+                    finally
+                    {
+                        File.Delete(TEST_FILE);
+                    }
+                });
             }
 
-            [TestMethod]
+            [Fact]
+            public void SpecializedConstructors()
+            {
+                Assert.Throws<ObjectDisposedException>(() =>
+                {
+                    using (StringReader sr = new StringReader(string.Format("a,b,c,d{0}1,2,3,4{0}", Environment.NewLine)))
+                    {
+                        using (GenericParserAdapter parser = new GenericParserAdapter(sr))
+                        {
+                            using (DataTable dtResult = parser.GetDataTable())
+                            {
+                                Assert.Single(dtResult.Select("[Column1] = 'a' AND [Column2] = 'b' AND [Column3] = 'c' AND [Column4] = 'd'"));
+                                Assert.Single(dtResult.Select("[Column1] = '1' AND [Column2] = '2' AND [Column3] = '3' AND [Column4] = '4'"));
+                            }
+                        }
+
+                        // This should throw an ObjectDisposedException.
+                        sr.Peek();
+                    }
+                });
+            }
+
+            [Fact]
             public void DisposeEvent()
             {
                 bool blnDisposeCalled = false;
@@ -823,13 +843,13 @@ namespace GenericParsing.UnitTests
                         blnDisposeCalled = true;
                     };
 
-                    Assert.IsFalse(blnDisposeCalled);
+                    Assert.False(blnDisposeCalled);
                 }
 
-                Assert.IsTrue(blnDisposeCalled);
+                Assert.True(blnDisposeCalled);
             }
 
-            [TestMethod]
+            [Fact]
             public void DisposeEventException()
             {
                 bool blnDisposeCalled = false;
@@ -842,168 +862,23 @@ namespace GenericParsing.UnitTests
                         throw new ArgumentException("Testing whether or not the exception is caught in the event.");
                     };
 
-                    Assert.IsFalse(blnDisposeCalled);
+                    Assert.False(blnDisposeCalled);
                 }
 
-                Assert.IsTrue(blnDisposeCalled);
+                Assert.True(blnDisposeCalled);
             }
         }
 
-        [TestClass]
         public class ProperParsing
         {
-            [TestMethod]
-            public void SimpleDelimiter()
-            {
-                UnitTests._ValidateResults("SimpleDelimiter");
-            }
-
-            [TestMethod]
-            public void SimpleFixedWidth()
-            {
-                UnitTests._ValidateResults("SimpleFixedWidth");
-            }
-
-            [TestMethod]
-            public void SkippingComments()
-            {
-                UnitTests._ValidateResults("SkippingComments");
-            }
-
-            [TestMethod]
-            public void SkippingEmptyRowsWithDelimiter()
-            {
-                UnitTests._ValidateResults("SkippingEmptyRowsWithDelimiter");
-            }
-
-            [TestMethod]
-            public void SkippingEmptyRowsWithFixedWidth()
-            {
-                UnitTests._ValidateResults("SkippingEmptyRowsWithFixedWidth");
-            }
-
-            [TestMethod]
-            public void NotSkippingEmptyRowsDelimiter()
-            {
-                UnitTests._ValidateResults("NotSkippingEmptyRowsDelimiter");
-            }
-
-            [TestMethod]
-            public void NotSkippingEmptyRowsDelimiterWithoutFileRowNumber()
-            {
-                UnitTests._ValidateResults("NotSkippingEmptyRowsDelimiterWithoutFileRowNumber");
-            }
-
-            [TestMethod]
-            public void NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber()
-            {
-                UnitTests._ValidateResults("NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber");
-            }
-
-            [TestMethod]
-            public void NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber()
-            {
-                UnitTests._ValidateResults("NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber");
-            }
-
-            [TestMethod]
-            public void NotSkippingEmptyRowsFixedWidth()
-            {
-                UnitTests._ValidateResults("NotSkippingEmptyRowsFixedWidth");
-            }
-
-            [TestMethod]
-            public void BasicSkipRows()
-            {
-                UnitTests._ValidateResults("BasicSkipRows");
-            }
-
-            [TestMethod]
-            public void BasicMaxRows()
-            {
-                UnitTests._ValidateResults("BasicMaxRows");
-            }
-
-            [TestMethod]
-            public void DifferentColumnDelimiter()
-            {
-                UnitTests._ValidateResults("DifferentColumnDelimiter");
-            }
-
-            [TestMethod]
-            public void BasicTextQualifiers()
-            {
-                UnitTests._ValidateResults("BasicTextQualifiers");
-            }
-
-            [TestMethod]
-            public void TextQualifiersWithDelimiters()
-            {
-                UnitTests._ValidateResults("TextQualifiersWithDelimiters");
-            }
-
-            [TestMethod]
-            public void TextQualifierNotClosedAtEnd()
-            {
-                UnitTests._ValidateResults("TextQualifierNotClosedAtEnd");
-            }
-
-            [TestMethod]
-            public void TextQualifierBeginningAndEnd()
-            {
-                UnitTests._ValidateResults("TextQualifierBeginningAndEnd");
-            }
-
-            [TestMethod]
-            public void TextQualifierWithoutEscape()
-            {
-                UnitTests._ValidateResults("TextQualifierWithoutEscape");
-            }
-
-            [TestMethod]
-            public void EscapeWithoutTextQualifier()
-            {
-                UnitTests._ValidateResults("EscapeWithoutTextQualifier");
-            }
-
-            [TestMethod]
-            public void BasicEscapedCharacters()
-            {
-                UnitTests._ValidateResults("BasicEscapedCharacters");
-            }
-            
-            [TestMethod]
-            public void EscapedCharacterAtEndOfRowDelimiter()
-            {
-                UnitTests._ValidateResults("EscapedCharacterAtEndOfRowDelimiter");
-            }
-
-            [TestMethod]
-            public void EscapedCharacterAtEndOfRowFixedWidth()
-            {
-                UnitTests._ValidateResults("EscapedCharacterAtEndOfRowFixedWidth");
-            }
-
-            [TestMethod]
-            public void EscapedCharacterAtEndOfFile()
-            {
-                UnitTests._ValidateResults("EscapedCharacterAtEndOfFile");
-            }
-
-            [TestMethod]
-            public void ReadingInHeader()
-            {
-                UnitTests._ValidateResults("ReadingInHeader");
-            }
-
-            [TestMethod]
+            [Fact]
             public void HeaderRowWithoutData()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
                 {
                     gp.FirstRowHasHeader = true;
 
-                    Assert.IsTrue(gp.FirstRowHasHeader);
+                    Assert.True(gp.FirstRowHasHeader);
 
                     using (StringReader sr = new StringReader("a,b,c,d"))
                     {
@@ -1011,26 +886,26 @@ namespace GenericParsing.UnitTests
 
                         using (DataTable dt = gp.GetDataTable())
                         {
-                            Assert.IsNotNull(dt);
-                            Assert.AreEqual(4, dt.Columns.Count);
-                            Assert.AreEqual("a", dt.Columns[0].ColumnName);
-                            Assert.AreEqual("b", dt.Columns[1].ColumnName);
-                            Assert.AreEqual("c", dt.Columns[2].ColumnName);
-                            Assert.AreEqual("d", dt.Columns[3].ColumnName);
-                            Assert.AreEqual(0, dt.Rows.Count);
+                            Assert.NotNull(dt);
+                            Assert.Equal(4, dt.Columns.Count);
+                            Assert.Equal("a", dt.Columns[0].ColumnName);
+                            Assert.Equal("b", dt.Columns[1].ColumnName);
+                            Assert.Equal("c", dt.Columns[2].ColumnName);
+                            Assert.Equal("d", dt.Columns[3].ColumnName);
+                            Assert.Equal(0, dt.Rows.Count);
                         }
                     }
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void HeaderRowWithoutDataWithNewLine()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
                 {
                     gp.FirstRowHasHeader = true;
 
-                    Assert.IsTrue(gp.FirstRowHasHeader);
+                    Assert.True(gp.FirstRowHasHeader);
 
                     using (StringReader sr = new StringReader("a,b,c,d\r\n"))
                     {
@@ -1038,19 +913,19 @@ namespace GenericParsing.UnitTests
 
                         using (DataTable dt = gp.GetDataTable())
                         {
-                            Assert.IsNotNull(dt);
-                            Assert.AreEqual(4, dt.Columns.Count);
-                            Assert.AreEqual("a", dt.Columns[0].ColumnName);
-                            Assert.AreEqual("b", dt.Columns[1].ColumnName);
-                            Assert.AreEqual("c", dt.Columns[2].ColumnName);
-                            Assert.AreEqual("d", dt.Columns[3].ColumnName);
-                            Assert.AreEqual(0, dt.Rows.Count);
+                            Assert.NotNull(dt);
+                            Assert.Equal(4, dt.Columns.Count);
+                            Assert.Equal("a", dt.Columns[0].ColumnName);
+                            Assert.Equal("b", dt.Columns[1].ColumnName);
+                            Assert.Equal("c", dt.Columns[2].ColumnName);
+                            Assert.Equal("d", dt.Columns[3].ColumnName);
+                            Assert.Equal(0, dt.Rows.Count);
                         }
                     }
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void HeaderRowWithoutDataAndIncludeFileLineNumber()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
@@ -1058,7 +933,7 @@ namespace GenericParsing.UnitTests
                     gp.FirstRowHasHeader = true;
                     gp.IncludeFileLineNumber = true;
 
-                    Assert.IsTrue(gp.FirstRowHasHeader);
+                    Assert.True(gp.FirstRowHasHeader);
 
                     using (StringReader sr = new StringReader("a,b,c,d"))
                     {
@@ -1066,20 +941,20 @@ namespace GenericParsing.UnitTests
 
                         using (DataTable dt = gp.GetDataTable())
                         {
-                            Assert.IsNotNull(dt);
-                            Assert.AreEqual(5, dt.Columns.Count);
-                            Assert.AreEqual("FileLineNumber", dt.Columns[0].ColumnName);
-                            Assert.AreEqual("a", dt.Columns[1].ColumnName);
-                            Assert.AreEqual("b", dt.Columns[2].ColumnName);
-                            Assert.AreEqual("c", dt.Columns[3].ColumnName);
-                            Assert.AreEqual("d", dt.Columns[4].ColumnName);
-                            Assert.AreEqual(0, dt.Rows.Count);
+                            Assert.NotNull(dt);
+                            Assert.Equal(5, dt.Columns.Count);
+                            Assert.Equal("FileLineNumber", dt.Columns[0].ColumnName);
+                            Assert.Equal("a", dt.Columns[1].ColumnName);
+                            Assert.Equal("b", dt.Columns[2].ColumnName);
+                            Assert.Equal("c", dt.Columns[3].ColumnName);
+                            Assert.Equal("d", dt.Columns[4].ColumnName);
+                            Assert.Equal(0, dt.Rows.Count);
                         }
                     }
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void EmptyDataSource()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
@@ -1090,15 +965,15 @@ namespace GenericParsing.UnitTests
 
                         using (DataTable dt = gp.GetDataTable())
                         {
-                            Assert.IsNotNull(dt);
-                            Assert.AreEqual(0, dt.Columns.Count);
-                            Assert.AreEqual(0, dt.Rows.Count);
+                            Assert.NotNull(dt);
+                            Assert.Empty(dt.Columns);
+                            Assert.Equal(0, dt.Rows.Count);
                         }
                     }
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void HeaderRowWithoutDataWithExpectedColumnCount()
             {
                 using (GenericParserAdapter gp = new GenericParserAdapter())
@@ -1106,9 +981,9 @@ namespace GenericParsing.UnitTests
                     gp.FirstRowHasHeader = true;
                     gp.FirstRowSetsExpectedColumnCount = true;
 
-                    Assert.IsTrue(gp.FirstRowHasHeader);
-                    Assert.IsTrue(gp.FirstRowSetsExpectedColumnCount);
-                    Assert.AreEqual(0, gp.ExpectedColumnCount);
+                    Assert.True(gp.FirstRowHasHeader);
+                    Assert.True(gp.FirstRowSetsExpectedColumnCount);
+                    Assert.Equal(0, gp.ExpectedColumnCount);
 
                     using (StringReader sr = new StringReader("a,b,c,d"))
                     {
@@ -1116,70 +991,16 @@ namespace GenericParsing.UnitTests
 
                         using (DataTable dt = gp.GetDataTable())
                         {
-                            Assert.IsNotNull(dt);
-                            Assert.AreEqual(4, dt.Columns.Count);
-                            Assert.AreEqual(0, dt.Rows.Count);
-                            Assert.AreEqual(4, gp.ExpectedColumnCount);
+                            Assert.NotNull(dt);
+                            Assert.Equal(4, dt.Columns.Count);
+                            Assert.Equal(0, dt.Rows.Count);
+                            Assert.Equal(4, gp.ExpectedColumnCount);
                         }
                     }
                 }
             }
 
-            [TestMethod]
-            public void ReadingInHeaderAfterComments()
-            {
-                UnitTests._ValidateResults("ReadingInHeaderAfterComments");
-            }
-
-            [TestMethod]
-            public void MaxRowsIgnoresCommentsHeader()
-            {
-                UnitTests._ValidateResults("MaxRowsIgnoresCommentsHeader");
-            }
-
-            [TestMethod]
-            public void HandlingDuplicateColumnNames()
-            {
-                UnitTests._ValidateResults("HandlingDuplicateColumnNames");
-            }
-
-            [TestMethod]
-            public void RowWithoutColumnDelimiter()
-            {
-                UnitTests._ValidateResults("RowWithoutColumnDelimiter");
-            }
-
-            [TestMethod]
-            public void TrimmingResults()
-            {
-                UnitTests._ValidateResults("TrimmingResults");
-            }
-
-            [TestMethod]
-            public void ReadLastRowWithoutRowDelimiter()
-            {
-                UnitTests._ValidateResults("ReadLastRowWithoutRowDelimiter");
-            }
-
-            [TestMethod]
-            public void ReadLastRowWithRowDelimiter()
-            {
-                UnitTests._ValidateResults("ReadLastRowWithRowDelimiter");
-            }
-
-            [TestMethod]
-            public void IncludeLineNumber()
-            {
-                UnitTests._ValidateResults("IncludeLineNumber");
-            }
-
-            [TestMethod]
-            public void UnicodeSupported()
-            {
-                UnitTests._ValidateResults("UnicodeSupported");
-            }
-
-            [TestMethod]
+            [Fact]
             public void EncodingTest()
             {
                 const string TEST_FILE = "Test.txt";
@@ -1194,9 +1015,9 @@ namespace GenericParsing.UnitTests
 
                         using (DataTable dt = gp.GetDataTable())
                         {
-                            Assert.IsNotNull(dt);
-                            Assert.AreEqual(4, dt.Columns.Count);
-                            Assert.AreEqual(1, dt.Rows.Count);
+                            Assert.NotNull(dt);
+                            Assert.Equal(4, dt.Columns.Count);
+                            Assert.Equal(1, dt.Rows.Count);
                         }
                     }
                 }
@@ -1206,13 +1027,7 @@ namespace GenericParsing.UnitTests
                 }
             }
 
-            [TestMethod]
-            public void SkippingAllRows()
-            {
-                UnitTests._ValidateResults("SkippingAllRows");
-            }
-
-            [TestMethod]
+            [Fact]
             public void LargeDataParsing()
             {
                 const int NUMBER_OF_COLUMNS_IN_BASE_DATA = 6;
@@ -1249,89 +1064,89 @@ namespace GenericParsing.UnitTests
 
                                 while (parser.Read())
                                 {
-                                    Assert.AreEqual(NUMBER_OF_COLUMNS_IN_BASE_DATA, parser.ColumnCount);
+                                    Assert.Equal(NUMBER_OF_COLUMNS_IN_BASE_DATA, parser.ColumnCount);
 
-                                    Assert.AreEqual("Column1", parser.GetColumnName(0));
-                                    Assert.AreEqual("Column2", parser.GetColumnName(1));
-                                    Assert.AreEqual("Column3", parser.GetColumnName(2));
-                                    Assert.AreEqual("Column4", parser.GetColumnName(3));
-                                    Assert.AreEqual("Column5", parser.GetColumnName(4));
-                                    Assert.AreEqual("Column6", parser.GetColumnName(5));
+                                    Assert.Equal("Column1", parser.GetColumnName(0));
+                                    Assert.Equal("Column2", parser.GetColumnName(1));
+                                    Assert.Equal("Column3", parser.GetColumnName(2));
+                                    Assert.Equal("Column4", parser.GetColumnName(3));
+                                    Assert.Equal("Column5", parser.GetColumnName(4));
+                                    Assert.Equal("Column6", parser.GetColumnName(5));
 
                                     intCurrentDataRowIndex = (parser.DataRowNumber - 1) % NUMBER_OF_ROWS_IN_BASE_DATA;
 
                                     switch (intCurrentDataRowIndex)
                                     {
                                         case 0:
-                                            Assert.AreEqual("a", parser[0]);
-                                            Assert.AreEqual("b", parser[1]);
-                                            Assert.AreEqual("c", parser[2]);
-                                            Assert.AreEqual("d", parser[3]);
-                                            Assert.AreEqual("e", parser[4]);
-                                            Assert.AreEqual("f", parser[5]);
+                                            Assert.Equal("a", parser[0]);
+                                            Assert.Equal("b", parser[1]);
+                                            Assert.Equal("c", parser[2]);
+                                            Assert.Equal("d", parser[3]);
+                                            Assert.Equal("e", parser[4]);
+                                            Assert.Equal("f", parser[5]);
                                             break;
 
                                         case 1:
-                                            Assert.AreEqual("1", parser[0]);
-                                            Assert.AreEqual("2", parser[1]);
-                                            Assert.AreEqual("3", parser[2]);
-                                            Assert.AreEqual("4", parser[3]);
-                                            Assert.AreEqual("5", parser[4]);
-                                            Assert.AreEqual("6", parser[5]);
+                                            Assert.Equal("1", parser[0]);
+                                            Assert.Equal("2", parser[1]);
+                                            Assert.Equal("3", parser[2]);
+                                            Assert.Equal("4", parser[3]);
+                                            Assert.Equal("5", parser[4]);
+                                            Assert.Equal("6", parser[5]);
                                             break;
 
                                         case 2:
-                                            Assert.AreEqual("g", parser[0]);
-                                            Assert.AreEqual("h", parser[1]);
-                                            Assert.AreEqual("i", parser[2]);
-                                            Assert.AreEqual("j", parser[3]);
-                                            Assert.AreEqual("k", parser[4]);
-                                            Assert.AreEqual("l", parser[5]);
+                                            Assert.Equal("g", parser[0]);
+                                            Assert.Equal("h", parser[1]);
+                                            Assert.Equal("i", parser[2]);
+                                            Assert.Equal("j", parser[3]);
+                                            Assert.Equal("k", parser[4]);
+                                            Assert.Equal("l", parser[5]);
                                             break;
 
                                         case 3:
-                                            Assert.AreEqual("7", parser[0]);
-                                            Assert.AreEqual("8", parser[1]);
-                                            Assert.AreEqual("9", parser[2]);
-                                            Assert.AreEqual("10", parser[3]);
-                                            Assert.AreEqual("11", parser[4]);
-                                            Assert.AreEqual("12", parser[5]);
+                                            Assert.Equal("7", parser[0]);
+                                            Assert.Equal("8", parser[1]);
+                                            Assert.Equal("9", parser[2]);
+                                            Assert.Equal("10", parser[3]);
+                                            Assert.Equal("11", parser[4]);
+                                            Assert.Equal("12", parser[5]);
                                             break;
 
                                         case 4:
-                                            Assert.AreEqual("m", parser[0]);
-                                            Assert.AreEqual("n", parser[1]);
-                                            Assert.AreEqual("o", parser[2]);
-                                            Assert.AreEqual("p", parser[3]);
-                                            Assert.AreEqual("q", parser[4]);
-                                            Assert.AreEqual("r", parser[5]);
+                                            Assert.Equal("m", parser[0]);
+                                            Assert.Equal("n", parser[1]);
+                                            Assert.Equal("o", parser[2]);
+                                            Assert.Equal("p", parser[3]);
+                                            Assert.Equal("q", parser[4]);
+                                            Assert.Equal("r", parser[5]);
                                             break;
 
                                         case 5:
-                                            Assert.AreEqual("13", parser[0]);
-                                            Assert.AreEqual("14", parser[1]);
-                                            Assert.AreEqual("15", parser[2]);
-                                            Assert.AreEqual("16", parser[3]);
-                                            Assert.AreEqual("17", parser[4]);
-                                            Assert.AreEqual("18", parser[5]);
+                                            Assert.Equal("13", parser[0]);
+                                            Assert.Equal("14", parser[1]);
+                                            Assert.Equal("15", parser[2]);
+                                            Assert.Equal("16", parser[3]);
+                                            Assert.Equal("17", parser[4]);
+                                            Assert.Equal("18", parser[5]);
                                             break;
 
                                         case 6:
-                                            Assert.AreEqual("t", parser[0]);
-                                            Assert.AreEqual("u", parser[1]);
-                                            Assert.AreEqual("v", parser[2]);
-                                            Assert.AreEqual("w", parser[3]);
-                                            Assert.AreEqual("x", parser[4]);
-                                            Assert.AreEqual("y", parser[5]);
+                                            Assert.Equal("t", parser[0]);
+                                            Assert.Equal("u", parser[1]);
+                                            Assert.Equal("v", parser[2]);
+                                            Assert.Equal("w", parser[3]);
+                                            Assert.Equal("x", parser[4]);
+                                            Assert.Equal("y", parser[5]);
                                             break;
 
                                         case 7:
-                                            Assert.AreEqual("19", parser[0]);
-                                            Assert.AreEqual("20", parser[1]);
-                                            Assert.AreEqual("21", parser[2]);
-                                            Assert.AreEqual("22", parser[3]);
-                                            Assert.AreEqual("23", parser[4]);
-                                            Assert.AreEqual("24", parser[5]);
+                                            Assert.Equal("19", parser[0]);
+                                            Assert.Equal("20", parser[1]);
+                                            Assert.Equal("21", parser[2]);
+                                            Assert.Equal("22", parser[3]);
+                                            Assert.Equal("23", parser[4]);
+                                            Assert.Equal("24", parser[5]);
                                             break;
 
                                         default:
@@ -1345,25 +1160,13 @@ namespace GenericParsing.UnitTests
                                 }
                             }
 
-                            Assert.AreEqual(NUMBER_OF_ITERATIONS_OF_BASE_DATA * NUMBER_OF_ROWS_IN_BASE_DATA, parser.DataRowNumber);
+                            Assert.Equal(NUMBER_OF_ITERATIONS_OF_BASE_DATA * NUMBER_OF_ROWS_IN_BASE_DATA, parser.DataRowNumber);
                         }
                     }
                 }
             }
 
-            [TestMethod]
-            public void ComplexDataDelimiter()
-            {
-                UnitTests._ValidateResults("ComplexDataDelimiter");
-            }
-
-            [TestMethod]
-            public void ComplexDataFixed()
-            {
-                UnitTests._ValidateResults("ComplexDataFixed");
-            }
-
-            [TestMethod]
+            [Fact]
             public void XmlTest()
             {
                 XmlDocument xmlResult;
@@ -1376,99 +1179,73 @@ namespace GenericParsing.UnitTests
                     xmlResult = parser.GetXml();
                     xmlResult.Normalize();
 
-                    Assert.AreEqual(strExpectedResult, xmlResult.OuterXml);
+                    Assert.Equal(strExpectedResult, xmlResult.OuterXml);
                 }
             }
 
-            [TestMethod]
-            public void SkippingRowsAtEndOfBuffer()
+            [Theory]
+            [InlineData("ReadingInHeaderAfterComments")]
+            [InlineData("MaxRowsIgnoresCommentsHeader")]
+            [InlineData("HandlingDuplicateColumnNames")]
+            [InlineData("RowWithoutColumnDelimiter")]
+            [InlineData("TrimmingResults")]
+            [InlineData("ReadLastRowWithoutRowDelimiter")]
+            [InlineData("ReadLastRowWithRowDelimiter")]
+            [InlineData("IncludeLineNumber")]
+            [InlineData("UnicodeSupported")]
+            [InlineData("ComplexDataDelimiter")]
+            [InlineData("ComplexDataFixed")]
+            [InlineData("SimpleDelimiter")]
+            [InlineData("SimpleFixedWidth")]
+            [InlineData("SkippingComments")]
+            [InlineData("SkippingEmptyRowsWithDelimiter")]
+            [InlineData("SkippingEmptyRowsWithFixedWidth")]
+            [InlineData("NotSkippingEmptyRowsDelimiter")]
+            [InlineData("NotSkippingEmptyRowsDelimiterWithoutFileRowNumber")]
+            [InlineData("NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber")]
+            [InlineData("NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber")]
+            [InlineData("NotSkippingEmptyRowsFixedWidth")]
+            [InlineData("BasicSkipRows")]
+            [InlineData("BasicMaxRows")]
+            [InlineData("DifferentColumnDelimiter")]
+            [InlineData("BasicTextQualifiers")]
+            [InlineData("TextQualifiersWithDelimiters")]
+            [InlineData("TextQualifierNotClosedAtEnd")]
+            [InlineData("TextQualifierBeginningAndEnd")]
+            [InlineData("TextQualifierWithoutEscape")]
+            [InlineData("EscapeWithoutTextQualifier")]
+            [InlineData("BasicEscapedCharacters")]
+            [InlineData("EscapedCharacterAtEndOfRowDelimiter")]
+            [InlineData("EscapedCharacterAtEndOfRowFixedWidth")]
+            [InlineData("EscapedCharacterAtEndOfFile")]
+            [InlineData("ReadingInHeader")]
+            [InlineData("SkippingRowsAtEndOfBuffer")]
+            [InlineData("SkippingAllRows")]
+            [InlineData("SkippingEndingRows")]
+            [InlineData("SkippingEndingRowsAll")]
+            [InlineData("SkippingEndingRowsExactlyAll")]
+            [InlineData("SkippingBeginningAndEndingRows")]
+            [InlineData("SkippingBeginningAndEndingRowsAll")]
+            [InlineData("FirstRowSetsExpectedColumnCountWithHeaderRow")]
+            [InlineData("FirstRowSetsExpectedColumnCountWithoutHeaderRow")]
+            [InlineData("SimpleDelimiterWithControlCharacters")]
+            [InlineData("AddingExtraColumns")]
+            public void SuccessfulScenarios(string testCase)
             {
-                UnitTests._ValidateResults("SkippingRowsAtEndOfBuffer");
+                UnitTests._ValidateResults(testCase);
             }
 
-            [TestMethod]
-            public void SkippingEndingRows()
+            [Theory]
+            [InlineData("FirstRowSetsExpectedColumnCountWithHeaderRowError")]
+            [InlineData("FirstRowSetsExpectedColumnCountWithoutHeaderRowError")]
+            [InlineData("ExpectedColumnCountErrorAdding")]
+            [InlineData("ExpectedColumnCountErrorRemoving")]
+            public void ParsingExceptionScenarios(string testCase)
             {
-                UnitTests._ValidateResults("SkippingEndingRows");
+                Assert.Throws<ParsingException>(() => UnitTests._ValidateResults(testCase));
             }
 
-            [TestMethod]
-            public void SkippingEndingRowsAll()
-            {
-                UnitTests._ValidateResults("SkippingEndingRowsAll");
-            }
-
-            [TestMethod]
-            public void SkippingEndingRowsExactlyAll()
-            {
-                UnitTests._ValidateResults("SkippingEndingRowsExactlyAll");
-            }
-
-            [TestMethod]
-            public void SkippingBeginningAndEndingRows()
-            {
-                UnitTests._ValidateResults("SkippingBeginningAndEndingRows");
-            }
-
-            [TestMethod]
-            public void SkippingBeginningAndEndingRowsAll()
-            {
-                UnitTests._ValidateResults("SkippingBeginningAndEndingRowsAll");
-            }
-
-            [TestMethod]
-            public void FirstRowSetsExpectedColumnCountWithHeaderRow()
-            {
-                UnitTests._ValidateResults("FirstRowSetsExpectedColumnCountWithHeaderRow");
-            }
-
-            [TestMethod]
-            public void FirstRowSetsExpectedColumnCountWithoutHeaderRow()
-            {
-                UnitTests._ValidateResults("FirstRowSetsExpectedColumnCountWithoutHeaderRow");
-            }
-
-            [TestMethod]
-            [ExpectedException(typeof(ParsingException))]
-            public void FirstRowSetsExpectedColumnCountWithHeaderRowError()
-            {
-                UnitTests._ValidateResults("FirstRowSetsExpectedColumnCountWithHeaderRowError");
-            }
-
-            [TestMethod]
-            [ExpectedException(typeof(ParsingException))]
-            public void FirstRowSetsExpectedColumnCountWithoutHeaderRowError()
-            {
-                UnitTests._ValidateResults("FirstRowSetsExpectedColumnCountWithoutHeaderRowError");
-            }
-
-            [TestMethod]
-            [ExpectedException(typeof(ParsingException))]
-            public void ExpectedColumnCountErrorAdding()
-            {
-                UnitTests._ValidateResults("ExpectedColumnCountErrorAdding");
-            }
-
-            [TestMethod]
-            [ExpectedException(typeof(ParsingException))]
-            public void ExpectedColumnCountErrorRemoving()
-            {
-                UnitTests._ValidateResults("ExpectedColumnCountErrorRemoving");
-            }
-
-            [TestMethod]
-            public void SimpleDelimiterWithControlCharacters()
-            {
-                UnitTests._ValidateResults("SimpleDelimiterWithControlCharacters");
-            }
-
-            [TestMethod]
-            public void AddingExtraColumns()
-            {
-                UnitTests._ValidateResults("AddingExtraColumns");
-            }
-
-            [TestMethod]
+            [Fact]
             public void VariousNewLineFormatsWithoutReturnDelimiter()
             {
                 using (StringReader sr = new StringReader("1,2,3\n4,5,6\r\n7,8,9\n\r10,11,12\r13,14,15"))
@@ -1477,14 +1254,14 @@ namespace GenericParsing.UnitTests
                     {
                         using (DataTable dt = parser.GetDataTable())
                         {
-                            Assert.IsNotNull(dt);
-                            Assert.AreEqual<int>(5, dt.Rows.Count);
+                            Assert.NotNull(dt);
+                            Assert.Equal<int>(5, dt.Rows.Count);
 
                             for (int row = 0; row < 5; ++row)
                             {
                                 for (int col = 0; col < 3; ++col)
                                 {
-                                    Assert.AreEqual(((row * 3) + col + 1).ToString(), dt.Rows[row][col]);
+                                    Assert.Equal(((row * 3) + col + 1).ToString(), dt.Rows[row][col]);
                                 }
                             }
                         }
@@ -1492,7 +1269,7 @@ namespace GenericParsing.UnitTests
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void VariousNewLineFormatsWithReturnDelimiter()
             {
                 using (StringReader sr = new StringReader("1\r2\r3\n4\r5\r"))
@@ -1503,20 +1280,20 @@ namespace GenericParsing.UnitTests
 
                         using (DataTable dt = parser.GetDataTable())
                         {
-                            Assert.IsNotNull(dt);
-                            Assert.AreEqual<int>(2, dt.Rows.Count);
-                            Assert.AreEqual("1", dt.Rows[0][0]);
-                            Assert.AreEqual("2", dt.Rows[0][1]);
-                            Assert.AreEqual("3", dt.Rows[0][2]);
-                            Assert.AreEqual("4", dt.Rows[1][0]);
-                            Assert.AreEqual("5", dt.Rows[1][1]);
-                            Assert.AreEqual("", dt.Rows[1][2]);
+                            Assert.NotNull(dt);
+                            Assert.Equal<int>(2, dt.Rows.Count);
+                            Assert.Equal("1", dt.Rows[0][0]);
+                            Assert.Equal("2", dt.Rows[0][1]);
+                            Assert.Equal("3", dt.Rows[0][2]);
+                            Assert.Equal("4", dt.Rows[1][0]);
+                            Assert.Equal("5", dt.Rows[1][1]);
+                            Assert.Equal("", dt.Rows[1][2]);
                         }
                     }
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void BufferMissesEndOfRow()
             {
                 using (StringReader sr = new StringReader("12345678\r\n\r\n"))
@@ -1526,9 +1303,9 @@ namespace GenericParsing.UnitTests
 
                     using (DataTable dt = parser.GetDataTable())
                     {
-                        Assert.IsNotNull(dt);
-                        Assert.AreEqual<int>(1, dt.Rows.Count);
-                        Assert.AreEqual("12345678", dt.Rows[0][0]);
+                        Assert.NotNull(dt);
+                        Assert.Equal<int>(1, dt.Rows.Count);
+                        Assert.Equal("12345678", dt.Rows[0][0]);
                     }
                 }
             }
@@ -1571,6 +1348,7 @@ namespace GenericParsing.UnitTests
                     return sr.ReadToEnd();
             }
         }
+
         /// <summary>
         ///   Creates a <see cref="GenericParserAdapter"/> and loads in the provided test's configuration
         ///   and input file and compares the results to the test's expected outcome.
@@ -1590,7 +1368,7 @@ namespace GenericParsing.UnitTests
                     {
                         dsResult.WriteXml(swProducedResult);
 
-                        Assert.AreEqual(strExpectedResult, swProducedResult.ToString());
+                        Assert.Equal(strExpectedResult, swProducedResult.ToString());
                     }
                 }
             }

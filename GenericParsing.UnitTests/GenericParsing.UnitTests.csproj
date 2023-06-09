@@ -1,379 +1,332 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2F6733F8-0E19-417D-B665-1C9947371AA8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>GenericParsing.UnitTests</RootNamespace>
-    <AssemblyName>GenericParsing.UnitTests</AssemblyName>
-    <WarningLevel>4</WarningLevel>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>.\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>false</DebugSymbols>
-    <Optimize>true</Optimize>
-    <OutputPath>.\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+    <TargetFramework>net4.8</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.XML" />
+    <None Remove="TestData\AddingExtraColumns.out" />
+    <None Remove="TestData\AddingExtraColumns.txt" />
+    <None Remove="TestData\AddingExtraColumns.xml" />
+    <None Remove="TestData\BasicEscapedCharacters.out" />
+    <None Remove="TestData\BasicEscapedCharacters.txt" />
+    <None Remove="TestData\BasicEscapedCharacters.xml" />
+    <None Remove="TestData\BasicMaxRows.out" />
+    <None Remove="TestData\BasicMaxRows.txt" />
+    <None Remove="TestData\BasicMaxRows.xml" />
+    <None Remove="TestData\BasicSkipRows.out" />
+    <None Remove="TestData\BasicSkipRows.txt" />
+    <None Remove="TestData\BasicSkipRows.xml" />
+    <None Remove="TestData\BasicTextQualifiers.out" />
+    <None Remove="TestData\BasicTextQualifiers.txt" />
+    <None Remove="TestData\BasicTextQualifiers.xml" />
+    <None Remove="TestData\ComplexDataDelimiter.out" />
+    <None Remove="TestData\ComplexDataDelimiter.txt" />
+    <None Remove="TestData\ComplexDataDelimiter.xml" />
+    <None Remove="TestData\ComplexDataFixed.out" />
+    <None Remove="TestData\ComplexDataFixed.txt" />
+    <None Remove="TestData\ComplexDataFixed.xml" />
+    <None Remove="TestData\DifferentColumnDelimiter.out" />
+    <None Remove="TestData\DifferentColumnDelimiter.txt" />
+    <None Remove="TestData\DifferentColumnDelimiter.xml" />
+    <None Remove="TestData\EscapedCharacterAtEndOfFile.out" />
+    <None Remove="TestData\EscapedCharacterAtEndOfFile.txt" />
+    <None Remove="TestData\EscapedCharacterAtEndOfFile.xml" />
+    <None Remove="TestData\EscapedCharacterAtEndOfRowDelimiter.out" />
+    <None Remove="TestData\EscapedCharacterAtEndOfRowDelimiter.txt" />
+    <None Remove="TestData\EscapedCharacterAtEndOfRowDelimiter.xml" />
+    <None Remove="TestData\EscapedCharacterAtEndOfRowFixedWidth.out" />
+    <None Remove="TestData\EscapedCharacterAtEndOfRowFixedWidth.txt" />
+    <None Remove="TestData\EscapedCharacterAtEndOfRowFixedWidth.xml" />
+    <None Remove="TestData\EscapeWithoutTextQualifier.out" />
+    <None Remove="TestData\EscapeWithoutTextQualifier.txt" />
+    <None Remove="TestData\EscapeWithoutTextQualifier.xml" />
+    <None Remove="TestData\ExpectedColumnCountErrorAdding.out" />
+    <None Remove="TestData\ExpectedColumnCountErrorAdding.txt" />
+    <None Remove="TestData\ExpectedColumnCountErrorAdding.xml" />
+    <None Remove="TestData\ExpectedColumnCountErrorRemoving.out" />
+    <None Remove="TestData\ExpectedColumnCountErrorRemoving.txt" />
+    <None Remove="TestData\ExpectedColumnCountErrorRemoving.xml" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithHeaderRow.out" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithHeaderRow.txt" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithHeaderRow.xml" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithHeaderRowError.out" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithHeaderRowError.txt" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithHeaderRowError.xml" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRow.out" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRow.txt" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRow.xml" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRowError.out" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRowError.txt" />
+    <None Remove="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRowError.xml" />
+    <None Remove="TestData\HandlingDuplicateColumnNames.out" />
+    <None Remove="TestData\HandlingDuplicateColumnNames.txt" />
+    <None Remove="TestData\HandlingDuplicateColumnNames.xml" />
+    <None Remove="TestData\IncludeLineNumber.out" />
+    <None Remove="TestData\IncludeLineNumber.txt" />
+    <None Remove="TestData\IncludeLineNumber.xml" />
+    <None Remove="TestData\MaxRowsIgnoresCommentsHeader.out" />
+    <None Remove="TestData\MaxRowsIgnoresCommentsHeader.txt" />
+    <None Remove="TestData\MaxRowsIgnoresCommentsHeader.xml" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiter.out" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiter.txt" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiter.xml" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber.out" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber.txt" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber.xml" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber.out" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber.txt" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber.xml" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiterWithoutFileRowNumber.out" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiterWithoutFileRowNumber.txt" />
+    <None Remove="TestData\NotSkippingEmptyRowsDelimiterWithoutFileRowNumber.xml" />
+    <None Remove="TestData\NotSkippingEmptyRowsFixedWidth.out" />
+    <None Remove="TestData\NotSkippingEmptyRowsFixedWidth.txt" />
+    <None Remove="TestData\NotSkippingEmptyRowsFixedWidth.xml" />
+    <None Remove="TestData\ReadingInHeader.out" />
+    <None Remove="TestData\ReadingInHeader.txt" />
+    <None Remove="TestData\ReadingInHeader.xml" />
+    <None Remove="TestData\ReadingInHeaderAfterComments.out" />
+    <None Remove="TestData\ReadingInHeaderAfterComments.txt" />
+    <None Remove="TestData\ReadingInHeaderAfterComments.xml" />
+    <None Remove="TestData\ReadLastRowWithoutRowDelimiter.out" />
+    <None Remove="TestData\ReadLastRowWithoutRowDelimiter.txt" />
+    <None Remove="TestData\ReadLastRowWithoutRowDelimiter.xml" />
+    <None Remove="TestData\ReadLastRowWithRowDelimiter.out" />
+    <None Remove="TestData\ReadLastRowWithRowDelimiter.txt" />
+    <None Remove="TestData\ReadLastRowWithRowDelimiter.xml" />
+    <None Remove="TestData\RowWithoutColumnDelimiter.out" />
+    <None Remove="TestData\RowWithoutColumnDelimiter.txt" />
+    <None Remove="TestData\RowWithoutColumnDelimiter.xml" />
+    <None Remove="TestData\SimpleDelimiter.out" />
+    <None Remove="TestData\SimpleDelimiter.txt" />
+    <None Remove="TestData\SimpleDelimiter.xml" />
+    <None Remove="TestData\SimpleDelimiterWithControlCharacters.out" />
+    <None Remove="TestData\SimpleDelimiterWithControlCharacters.txt" />
+    <None Remove="TestData\SimpleDelimiterWithControlCharacters.xml" />
+    <None Remove="TestData\SimpleFixedWidth.out" />
+    <None Remove="TestData\SimpleFixedWidth.txt" />
+    <None Remove="TestData\SimpleFixedWidth.xml" />
+    <None Remove="TestData\SkippingAllRows.out" />
+    <None Remove="TestData\SkippingAllRows.txt" />
+    <None Remove="TestData\SkippingAllRows.xml" />
+    <None Remove="TestData\SkippingBeginningAndEndingRows.out" />
+    <None Remove="TestData\SkippingBeginningAndEndingRows.txt" />
+    <None Remove="TestData\SkippingBeginningAndEndingRows.xml" />
+    <None Remove="TestData\SkippingBeginningAndEndingRowsAll.out" />
+    <None Remove="TestData\SkippingBeginningAndEndingRowsAll.txt" />
+    <None Remove="TestData\SkippingBeginningAndEndingRowsAll.xml" />
+    <None Remove="TestData\SkippingComments.out" />
+    <None Remove="TestData\SkippingComments.txt" />
+    <None Remove="TestData\SkippingComments.xml" />
+    <None Remove="TestData\SkippingEmptyRowsWithDelimiter.out" />
+    <None Remove="TestData\SkippingEmptyRowsWithDelimiter.txt" />
+    <None Remove="TestData\SkippingEmptyRowsWithDelimiter.xml" />
+    <None Remove="TestData\SkippingEmptyRowsWithFixedWidth.out" />
+    <None Remove="TestData\SkippingEmptyRowsWithFixedWidth.txt" />
+    <None Remove="TestData\SkippingEmptyRowsWithFixedWidth.xml" />
+    <None Remove="TestData\SkippingEndingRows.out" />
+    <None Remove="TestData\SkippingEndingRows.txt" />
+    <None Remove="TestData\SkippingEndingRows.xml" />
+    <None Remove="TestData\SkippingEndingRowsAll.out" />
+    <None Remove="TestData\SkippingEndingRowsAll.txt" />
+    <None Remove="TestData\SkippingEndingRowsAll.xml" />
+    <None Remove="TestData\SkippingEndingRowsExactlyAll.out" />
+    <None Remove="TestData\SkippingEndingRowsExactlyAll.txt" />
+    <None Remove="TestData\SkippingEndingRowsExactlyAll.xml" />
+    <None Remove="TestData\SkippingRowsAtEndOfBuffer.out" />
+    <None Remove="TestData\SkippingRowsAtEndOfBuffer.txt" />
+    <None Remove="TestData\SkippingRowsAtEndOfBuffer.xml" />
+    <None Remove="TestData\TextQualifierBeginningAndEnd.out" />
+    <None Remove="TestData\TextQualifierBeginningAndEnd.txt" />
+    <None Remove="TestData\TextQualifierBeginningAndEnd.xml" />
+    <None Remove="TestData\TextQualifierNotClosedAtEnd.out" />
+    <None Remove="TestData\TextQualifierNotClosedAtEnd.txt" />
+    <None Remove="TestData\TextQualifierNotClosedAtEnd.xml" />
+    <None Remove="TestData\TextQualifiersWithDelimiters.out" />
+    <None Remove="TestData\TextQualifiersWithDelimiters.txt" />
+    <None Remove="TestData\TextQualifiersWithDelimiters.xml" />
+    <None Remove="TestData\TextQualifierWithoutEscape.out" />
+    <None Remove="TestData\TextQualifierWithoutEscape.txt" />
+    <None Remove="TestData\TextQualifierWithoutEscape.xml" />
+    <None Remove="TestData\TrimmingResults.out" />
+    <None Remove="TestData\TrimmingResults.txt" />
+    <None Remove="TestData\TrimmingResults.xml" />
+    <None Remove="TestData\UnicodeSupported.out" />
+    <None Remove="TestData\UnicodeSupported.txt" />
+    <None Remove="TestData\UnicodeSupported.xml" />
+    <None Remove="TestData\XmlTest.out" />
+    <None Remove="TestData\XmlTest.txt" />
+    <None Remove="TestData\XmlTest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SolutionVersionInfo.cs">
-      <Link>Properties\SolutionVersionInfo.cs</Link>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <EmbeddedResource Include="TestData\AddingExtraColumns.out" />
+    <EmbeddedResource Include="TestData\AddingExtraColumns.txt" />
+    <EmbeddedResource Include="TestData\AddingExtraColumns.xml" />
     <EmbeddedResource Include="TestData\BasicEscapedCharacters.out" />
-    <EmbeddedResource Include="TestData\BasicMaxRows.out" />
-    <EmbeddedResource Include="TestData\BasicSkipRows.out" />
-    <EmbeddedResource Include="TestData\BasicTextQualifiers.out" />
-    <EmbeddedResource Include="TestData\ComplexDataDelimiter.out" />
-    <EmbeddedResource Include="TestData\ComplexDataFixed.out" />
-    <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfFile.out" />
-    <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfRowFixedWidth.out" />
-    <EmbeddedResource Include="TestData\EscapeWithoutTextQualifier.out" />
-    <EmbeddedResource Include="TestData\HandlingDuplicateColumnNames.out" />
-    <EmbeddedResource Include="TestData\IncludeLineNumber.out" />
-    <EmbeddedResource Include="TestData\MaxRowsIgnoresCommentsHeader.out" />
-    <EmbeddedResource Include="TestData\SkippingComments.out" />
-    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithDelimiter.out" />
-    <EmbeddedResource Include="TestData\ReadingInHeader.out" />
-    <EmbeddedResource Include="TestData\ReadingInHeaderAfterComments.out" />
-    <EmbeddedResource Include="TestData\ReadLastRowWithoutRowDelimiter.out" />
-    <EmbeddedResource Include="TestData\ReadLastRowWithRowDelimiter.out" />
-    <EmbeddedResource Include="TestData\RowWithoutColumnDelimiter.out" />
-    <EmbeddedResource Include="TestData\SimpleDelimiter.out" />
-    <EmbeddedResource Include="TestData\SimpleFixedWidth.out" />
-    <EmbeddedResource Include="TestData\SkippingAllRows.out" />
-    <EmbeddedResource Include="TestData\SkippingRowsAtEndOfBuffer.out" />
-    <EmbeddedResource Include="TestData\TextQualifierBeginningAndEnd.out" />
-    <EmbeddedResource Include="TestData\TextQualifierNotClosedAtEnd.out" />
-    <EmbeddedResource Include="TestData\TextQualifiersWithDelimiters.out" />
-    <EmbeddedResource Include="TestData\TextQualifierWithoutEscape.out" />
-    <EmbeddedResource Include="TestData\TrimmingResults.out" />
-    <EmbeddedResource Include="TestData\UnicodeSupported.out" />
-    <EmbeddedResource Include="TestData\XmlTest.out" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="TestData\BasicEscapedCharacters.txt" />
     <EmbeddedResource Include="TestData\BasicEscapedCharacters.xml" />
+    <EmbeddedResource Include="TestData\BasicMaxRows.out" />
     <EmbeddedResource Include="TestData\BasicMaxRows.txt" />
     <EmbeddedResource Include="TestData\BasicMaxRows.xml" />
+    <EmbeddedResource Include="TestData\BasicSkipRows.out" />
     <EmbeddedResource Include="TestData\BasicSkipRows.txt" />
     <EmbeddedResource Include="TestData\BasicSkipRows.xml" />
+    <EmbeddedResource Include="TestData\BasicTextQualifiers.out" />
     <EmbeddedResource Include="TestData\BasicTextQualifiers.txt" />
     <EmbeddedResource Include="TestData\BasicTextQualifiers.xml" />
+    <EmbeddedResource Include="TestData\ComplexDataDelimiter.out" />
     <EmbeddedResource Include="TestData\ComplexDataDelimiter.txt" />
     <EmbeddedResource Include="TestData\ComplexDataDelimiter.xml" />
+    <EmbeddedResource Include="TestData\ComplexDataFixed.out" />
     <EmbeddedResource Include="TestData\ComplexDataFixed.txt" />
     <EmbeddedResource Include="TestData\ComplexDataFixed.xml" />
-    <EmbeddedResource Include="TestData\EscapeWithoutTextQualifier.txt" />
-    <EmbeddedResource Include="TestData\EscapeWithoutTextQualifier.xml" />
-    <EmbeddedResource Include="TestData\TextQualifierBeginningAndEnd.xml" />
+    <EmbeddedResource Include="TestData\DifferentColumnDelimiter.out" />
+    <EmbeddedResource Include="TestData\DifferentColumnDelimiter.txt" />
+    <EmbeddedResource Include="TestData\DifferentColumnDelimiter.xml" />
+    <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfFile.out" />
     <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfFile.txt" />
     <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfFile.xml" />
+    <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfRowDelimiter.out" />
+    <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfRowDelimiter.txt" />
+    <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfRowDelimiter.xml" />
+    <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfRowFixedWidth.out" />
     <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfRowFixedWidth.txt" />
     <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfRowFixedWidth.xml" />
+    <EmbeddedResource Include="TestData\EscapeWithoutTextQualifier.out" />
+    <EmbeddedResource Include="TestData\EscapeWithoutTextQualifier.txt" />
+    <EmbeddedResource Include="TestData\EscapeWithoutTextQualifier.xml" />
+    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorAdding.out" />
+    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorAdding.txt" />
+    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorAdding.xml" />
+    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorRemoving.out" />
+    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorRemoving.txt" />
+    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorRemoving.xml" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRow.out" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRow.txt" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRow.xml" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRowError.out" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRowError.txt" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRowError.xml" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRow.out" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRow.txt" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRow.xml" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRowError.out" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRowError.txt" />
+    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRowError.xml" />
+    <EmbeddedResource Include="TestData\HandlingDuplicateColumnNames.out" />
     <EmbeddedResource Include="TestData\HandlingDuplicateColumnNames.txt" />
     <EmbeddedResource Include="TestData\HandlingDuplicateColumnNames.xml" />
+    <EmbeddedResource Include="TestData\IncludeLineNumber.out" />
     <EmbeddedResource Include="TestData\IncludeLineNumber.txt" />
     <EmbeddedResource Include="TestData\IncludeLineNumber.xml" />
+    <EmbeddedResource Include="TestData\MaxRowsIgnoresCommentsHeader.out" />
     <EmbeddedResource Include="TestData\MaxRowsIgnoresCommentsHeader.txt" />
     <EmbeddedResource Include="TestData\MaxRowsIgnoresCommentsHeader.xml" />
-    <EmbeddedResource Include="TestData\SkippingComments.txt" />
-    <EmbeddedResource Include="TestData\SkippingComments.xml" />
-    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithDelimiter.txt" />
-    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithDelimiter.xml" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiter.out" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiter.txt" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiter.xml" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber.out" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber.txt" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber.xml" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber.out" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber.txt" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber.xml" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithoutFileRowNumber.out" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithoutFileRowNumber.txt" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithoutFileRowNumber.xml" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsFixedWidth.out" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsFixedWidth.txt" />
+    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsFixedWidth.xml" />
+    <EmbeddedResource Include="TestData\ReadingInHeader.out" />
     <EmbeddedResource Include="TestData\ReadingInHeader.txt" />
     <EmbeddedResource Include="TestData\ReadingInHeader.xml" />
+    <EmbeddedResource Include="TestData\ReadingInHeaderAfterComments.out" />
     <EmbeddedResource Include="TestData\ReadingInHeaderAfterComments.txt" />
     <EmbeddedResource Include="TestData\ReadingInHeaderAfterComments.xml" />
+    <EmbeddedResource Include="TestData\ReadLastRowWithoutRowDelimiter.out" />
     <EmbeddedResource Include="TestData\ReadLastRowWithoutRowDelimiter.txt" />
     <EmbeddedResource Include="TestData\ReadLastRowWithoutRowDelimiter.xml" />
+    <EmbeddedResource Include="TestData\ReadLastRowWithRowDelimiter.out" />
     <EmbeddedResource Include="TestData\ReadLastRowWithRowDelimiter.txt" />
     <EmbeddedResource Include="TestData\ReadLastRowWithRowDelimiter.xml" />
+    <EmbeddedResource Include="TestData\RowWithoutColumnDelimiter.out" />
     <EmbeddedResource Include="TestData\RowWithoutColumnDelimiter.txt" />
     <EmbeddedResource Include="TestData\RowWithoutColumnDelimiter.xml" />
+    <EmbeddedResource Include="TestData\SimpleDelimiter.out" />
     <EmbeddedResource Include="TestData\SimpleDelimiter.txt" />
     <EmbeddedResource Include="TestData\SimpleDelimiter.xml" />
+    <EmbeddedResource Include="TestData\SimpleDelimiterWithControlCharacters.out" />
+    <EmbeddedResource Include="TestData\SimpleDelimiterWithControlCharacters.txt" />
+    <EmbeddedResource Include="TestData\SimpleDelimiterWithControlCharacters.xml" />
+    <EmbeddedResource Include="TestData\SimpleFixedWidth.out" />
     <EmbeddedResource Include="TestData\SimpleFixedWidth.txt" />
     <EmbeddedResource Include="TestData\SimpleFixedWidth.xml" />
+    <EmbeddedResource Include="TestData\SkippingAllRows.out" />
     <EmbeddedResource Include="TestData\SkippingAllRows.txt" />
     <EmbeddedResource Include="TestData\SkippingAllRows.xml" />
+    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRows.out" />
+    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRows.txt" />
+    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRows.xml" />
+    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRowsAll.out" />
+    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRowsAll.txt" />
+    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRowsAll.xml" />
+    <EmbeddedResource Include="TestData\SkippingComments.out" />
+    <EmbeddedResource Include="TestData\SkippingComments.txt" />
+    <EmbeddedResource Include="TestData\SkippingComments.xml" />
+    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithDelimiter.out" />
+    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithDelimiter.txt" />
+    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithDelimiter.xml" />
+    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithFixedWidth.out" />
+    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithFixedWidth.txt" />
+    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithFixedWidth.xml" />
+    <EmbeddedResource Include="TestData\SkippingEndingRows.out" />
+    <EmbeddedResource Include="TestData\SkippingEndingRows.txt" />
+    <EmbeddedResource Include="TestData\SkippingEndingRows.xml" />
+    <EmbeddedResource Include="TestData\SkippingEndingRowsAll.out" />
+    <EmbeddedResource Include="TestData\SkippingEndingRowsAll.txt" />
+    <EmbeddedResource Include="TestData\SkippingEndingRowsAll.xml" />
+    <EmbeddedResource Include="TestData\SkippingEndingRowsExactlyAll.out" />
+    <EmbeddedResource Include="TestData\SkippingEndingRowsExactlyAll.txt" />
+    <EmbeddedResource Include="TestData\SkippingEndingRowsExactlyAll.xml" />
+    <EmbeddedResource Include="TestData\SkippingRowsAtEndOfBuffer.out" />
     <EmbeddedResource Include="TestData\SkippingRowsAtEndOfBuffer.txt" />
     <EmbeddedResource Include="TestData\SkippingRowsAtEndOfBuffer.xml" />
+    <EmbeddedResource Include="TestData\TextQualifierBeginningAndEnd.out" />
     <EmbeddedResource Include="TestData\TextQualifierBeginningAndEnd.txt" />
+    <EmbeddedResource Include="TestData\TextQualifierBeginningAndEnd.xml" />
+    <EmbeddedResource Include="TestData\TextQualifierNotClosedAtEnd.out" />
     <EmbeddedResource Include="TestData\TextQualifierNotClosedAtEnd.txt" />
     <EmbeddedResource Include="TestData\TextQualifierNotClosedAtEnd.xml" />
+    <EmbeddedResource Include="TestData\TextQualifiersWithDelimiters.out" />
     <EmbeddedResource Include="TestData\TextQualifiersWithDelimiters.txt" />
     <EmbeddedResource Include="TestData\TextQualifiersWithDelimiters.xml" />
+    <EmbeddedResource Include="TestData\TextQualifierWithoutEscape.out" />
     <EmbeddedResource Include="TestData\TextQualifierWithoutEscape.txt" />
     <EmbeddedResource Include="TestData\TextQualifierWithoutEscape.xml" />
+    <EmbeddedResource Include="TestData\TrimmingResults.out" />
     <EmbeddedResource Include="TestData\TrimmingResults.txt" />
     <EmbeddedResource Include="TestData\TrimmingResults.xml" />
+    <EmbeddedResource Include="TestData\UnicodeSupported.out" />
     <EmbeddedResource Include="TestData\UnicodeSupported.txt" />
     <EmbeddedResource Include="TestData\UnicodeSupported.xml" />
+    <EmbeddedResource Include="TestData\XmlTest.out" />
     <EmbeddedResource Include="TestData\XmlTest.txt" />
     <EmbeddedResource Include="TestData\XmlTest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenericParsing\GenericParsing.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRow.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRow.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRow.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRow.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRow.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRow.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRowError.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRowError.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRowError.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithHeaderRowError.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRowError.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\FirstRowSetsExpectedColumnCountWithoutHeaderRowError.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorAdding.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorAdding.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorAdding.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SimpleDelimiterWithControlCharacters.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SimpleDelimiterWithControlCharacters.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SimpleDelimiterWithControlCharacters.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\AddingExtraColumns.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\AddingExtraColumns.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\AddingExtraColumns.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorRemoving.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorRemoving.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\ExpectedColumnCountErrorRemoving.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\DifferentColumnDelimiter.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\DifferentColumnDelimiter.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\DifferentColumnDelimiter.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfRowDelimiter.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfRowDelimiter.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\EscapedCharacterAtEndOfRowDelimiter.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiter.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiter.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiter.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsFixedWidth.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsFixedWidth.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsFixedWidth.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithFixedWidth.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithFixedWidth.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEmptyRowsWithFixedWidth.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEndingRows.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEndingRows.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEndingRows.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEndingRowsAll.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEndingRowsAll.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEndingRowsAll.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEndingRowsExactlyAll.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEndingRowsExactlyAll.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingEndingRowsExactlyAll.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRows.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRows.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRows.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRowsAll.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRowsAll.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\SkippingBeginningAndEndingRowsAll.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithoutFileRowNumber.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithoutFileRowNumber.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithoutFileRowNumber.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithoutFileRowNumber.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber.out" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\NotSkippingEmptyRowsDelimiterWithHeaderWithFileRowNumber.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GenericParsing\GenericParsing.csproj">
-      <Project>{3e34d5eb-b746-4672-aa9d-f73807a59390}</Project>
-      <Name>GenericParsing</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
 </Project>

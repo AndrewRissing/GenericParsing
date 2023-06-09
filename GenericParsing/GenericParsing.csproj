@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net452;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.2.2</Version>
+    <Version>1.3.0</Version>
     <Authors>Andrew Rissing</Authors>
     <Company>N/A</Company>
     <Owners>AndrewRissing</Owners>
@@ -14,13 +14,11 @@
     <PackageProjectUrl>https://github.com/AndrewRissing/GenericParsing</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <PackageTags>GenericParsing Parsing CSV TSV Delimited</PackageTags>
-    <AssemblyVersion>1.2.2.0</AssemblyVersion>
-    <FileVersion>1.2.2.0</FileVersion>
+    <AssemblyVersion>1.3.0.0</AssemblyVersion>
+    <FileVersion>1.3.0.0</FileVersion>
     <RepositoryUrl>https://github.com/AndrewRissing/GenericParsing</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>GenericParsing.pfx</AssemblyOriginatorKeyFile>
-    <DelaySign>false</DelaySign>
+    <PackageReleaseNotes Condition="'$(Version)' == '1.3.0'">- Added ColumnNameComparisonMode (jonataspc).</PackageReleaseNotes> 
     <PackageReleaseNotes Condition="'$(Version)' == '1.2.2'">- Request only read access when opening a file.
 - Updated the license to MIT.</PackageReleaseNotes> 
     <PackageReleaseNotes Condition="'$(Version)' == '1.2.1'">- Added new target frameworks (.NET 4.5.2, .NET 4.6.1).
