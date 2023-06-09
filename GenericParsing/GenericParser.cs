@@ -483,6 +483,33 @@ namespace GenericParsing
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the string comparison mode when retrieving data by column name.
+        /// <remarks>
+        ///   <para>
+        ///     Default: <see langword="null"/>
+        ///   </para>
+        ///   <para>
+        ///     If parsing has started, this value cannot be updated.
+        ///   </para>
+        /// </remarks>
+        /// </summary>
+        public StringComparison? ColumnNameComparisonMode
+        {
+            get
+            {
+                return this.m_enColumnNameComparisonMode;
+            }
+            set
+            {
+                if (this.m_ParserState == ParserState.Parsing)
+                    throw new InvalidOperationException("Parsing has already begun, close the existing parse first.");
+
+                this.m_enColumnNameComparisonMode = value;
+            }
+        }
+
         /// <summary>
         ///   Gets or sets whether or not the first row of data in the file contains
         ///   the header information.
@@ -880,7 +907,7 @@ namespace GenericParsing
         ///   Gets the data found in the current row of data by the column index.
         /// </summary>
         /// <value>The value of the column at the given index.</value>
-        /// <param name="intColumnIndex">The index of the column to retreive.</param>
+        /// <param name="intColumnIndex">The index of the column to retrieve.</param>
         /// <remarks>
         ///   If the column is outside the bounds of the columns found or the column
         ///   does not possess a name, it will return <see langword="null"/>.
@@ -899,7 +926,7 @@ namespace GenericParsing
         ///   Gets the data found in the current row of data by the column name.
         /// </summary>
         /// <value>The value of the column with the given column name.</value>
-        /// <param name="strColumnName">The name of the column to retreive.</param>
+        /// <param name="strColumnName">The name of the column to retrieve.</param>
         /// <remarks>
         ///   If the header has yet to be parsed (or no header exists), the property will
         ///   return <see langword="null"/>.
@@ -1830,6 +1857,7 @@ namespace GenericParsing
         private int m_intMaxBufferSize;
         private int m_intMaxRows;
         private int m_intSkipStartingDataRows;
+        private StringComparison? m_enColumnNameComparisonMode;
         private int m_intExpectedColumnCount;
         private bool m_blnFirstRowHasHeader;
         private bool m_blnTrimResults;
@@ -2367,7 +2395,14 @@ namespace GenericParsing
         private int _GetColumnIndex(string strColumnName)
         {
             if (this.m_blnHeaderRowFound && (strColumnName != null))
+            { 
+                if (m_enColumnNameComparisonMode.HasValue)
+                {
+                    return this.m_lstColumnNames.FindIndex(c => c.Equals(strColumnName, m_enColumnNameComparisonMode.Value)); 
+                }
+
                 return this.m_lstColumnNames.IndexOf(strColumnName);
+            }
             else
                 return -1;
         }
