@@ -139,8 +139,6 @@ namespace GenericParsing
         private const string XML_ESCAPE_CHARACTER = "EscapeCharacter";
         private const string XML_COMMENT_CHARACTER = "CommentCharacter";
 
-        private const string XML_SAFE_STRING_DELIMITER = ",";
-
         #endregion XmlConfig Constants
 
         #endregion Constants
@@ -290,13 +288,13 @@ namespace GenericParsing
                 else
                 {
                     if (this.m_iaColumnWidths.Length < 1)
-                        throw new ArgumentOutOfRangeException("value", "ColumnWidths cannot be an empty array.");
+                        throw new ArgumentOutOfRangeException(nameof(ColumnWidths), "ColumnWidths cannot be an empty array.");
 
                     // Make sure all of the ColumnWidths are valid.
                     for (int intColumnIndex = 0; intColumnIndex < this.m_iaColumnWidths.Length; ++intColumnIndex)
                     {
                         if (this.m_iaColumnWidths[intColumnIndex] < 1)
-                            throw new ArgumentOutOfRangeException("value", "ColumnWidths cannot contain a number less than one.");
+                            throw new ArgumentOutOfRangeException(nameof(ColumnWidths), "ColumnWidths cannot contain a number less than one.");
                     }
 
                     this.m_textFieldType = FieldType.FixedWidth;
@@ -338,7 +336,7 @@ namespace GenericParsing
                 if (value > 0)
                     this.m_intMaxBufferSize = value;
                 else
-                    throw new ArgumentOutOfRangeException("value", value, "The MaxBufferSize must be greater than 0.");
+                    throw new ArgumentOutOfRangeException(nameof(MaxBufferSize), value, "The MaxBufferSize must be greater than 0.");
             }
         }
         /// <summary>
@@ -1012,11 +1010,11 @@ namespace GenericParsing
             if (this.m_ParserState == ParserState.Parsing)
                 throw new InvalidOperationException("Parsing has already begun, close the existing parse first.");
             if (strFileName == null)
-                throw new ArgumentNullException("strFileName", "The filename cannot be a null value.");
+                throw new ArgumentNullException(nameof(strFileName), "The filename cannot be a null value.");
             if (!File.Exists(strFileName))
-                throw new ArgumentException(string.Format("File, {0}, does not exist.", strFileName), "strFileName");
+                throw new ArgumentException(string.Format("File, {0}, does not exist.", strFileName), nameof(strFileName));
             if (encoding == null)
-                throw new ArgumentNullException("encoding", "The encoding cannot be a null value.");
+                throw new ArgumentNullException(nameof(encoding), "The encoding cannot be a null value.");
 
             // Clean up the existing text reader if it exists.
             if (this.m_txtReader != null)
@@ -1047,15 +1045,13 @@ namespace GenericParsing
         {
             if (this.m_ParserState == ParserState.Parsing)
                 throw new InvalidOperationException("Parsing has already begun, close the existing parse first.");
-            if (txtReader == null)
-                throw new ArgumentNullException("txtReader", "The text reader cannot be a null value.");
 
             // Clean up the existing text reader if it exists.
             if (this.m_txtReader != null)
                 this.m_txtReader.Dispose();
 
             this.m_ParserState = ParserState.Ready;
-            this.m_txtReader = txtReader;
+            this.m_txtReader = txtReader ?? throw new ArgumentNullException(nameof(txtReader), "The text reader cannot be a null value.");
         }
 
         /// <summary>
@@ -1830,9 +1826,9 @@ namespace GenericParsing
         /// </summary>
         protected virtual void OnDisposed()
         {
-            if (this.Disposed != null)
-                this.Disposed(this, EventArgs.Empty);
+            this.Disposed?.Invoke(this, EventArgs.Empty);
         }
+
         /// <summary>
         ///   Releases the all unmanaged resources used by this instance and optionally releases the managed resources.
         /// </summary>
@@ -1908,7 +1904,7 @@ namespace GenericParsing
 
         #endregion Parsing Variables
 
-        private object m_objLock;
+        private readonly object m_objLock;
         private bool m_blnDisposed;
 
         /// <summary>

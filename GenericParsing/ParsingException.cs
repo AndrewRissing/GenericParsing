@@ -3,23 +3,26 @@
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights 
+//  in the Software without restriction, including without limitation the rights
 //  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do so, 
+//  of the Software, and to permit persons to whom the Software is furnished to do so,
 //  subject to the following conditions:
 //
-//  The above copyright notice and this permission notice shall be included in all 
+//  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 //  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-//  PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
+//  PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
 //  FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 //  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+
+#if !(NET6_0_OR_GREATER)
 using System.Runtime.Serialization;
 using System.Security.Permissions;
+#endif
 
 namespace GenericParsing
 {
@@ -31,12 +34,14 @@ namespace GenericParsing
     [Serializable]
     public class ParsingException : Exception
     {
+#if !(NET6_0_OR_GREATER)
         #region Constants
 
         private const string SERIALIZATION_COLUMN_NUMBER = "ColumnNumber";
         private const string SERIALIZATION_FILE_ROW_NUMBER = "FileRowNumber";
 
         #endregion Constants
+#endif
 
         #region Constructors
 
@@ -47,6 +52,7 @@ namespace GenericParsing
         {
             /* Intentionally left blank */
         }
+
         /// <summary>
         ///   Creates a new <see cref="ParsingException"/> containing a message and the
         ///   file line number that the error occured.
@@ -62,6 +68,8 @@ namespace GenericParsing
             this.m_intFileRowNumber = intFileRowNumber;
             this.m_intColumnNumber = intColumnNumber;
         }
+
+#if !(NET6_0_OR_GREATER)
         /// <summary>
         ///   Creates a new <see cref="ParsingException"/> with seralized data.
         /// </summary>
@@ -79,6 +87,7 @@ namespace GenericParsing
             this.m_intFileRowNumber = sInfo.GetInt32(SERIALIZATION_FILE_ROW_NUMBER);
             this.m_intColumnNumber = sInfo.GetInt32(SERIALIZATION_COLUMN_NUMBER);
         }
+#endif
 
         #endregion Constructors
 
@@ -94,6 +103,7 @@ namespace GenericParsing
                 return this.m_intFileRowNumber;
             }
         }
+
         /// <summary>
         ///   The column number in the file that the exception was thrown at.
         /// </summary>
@@ -109,11 +119,12 @@ namespace GenericParsing
 
         #region Private Members
 
-        private int m_intFileRowNumber;
-        private int m_intColumnNumber;
+        private readonly int m_intFileRowNumber;
+        private readonly int m_intColumnNumber;
 
         #endregion Private Members
 
+#if !(NET6_0_OR_GREATER)
         #region Overridden Methods
 
         /// <summary>
@@ -138,5 +149,6 @@ namespace GenericParsing
         }
 
         #endregion Overridden Methods
+#endif
     }
 }

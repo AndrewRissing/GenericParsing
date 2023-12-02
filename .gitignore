@@ -105,4 +105,4 @@ Backup*/
 UpgradeLog*.XML
 
 .vs/
-GenericParsing/GenericParsing.pfx
+GenericParsing/GenericParsing.snk

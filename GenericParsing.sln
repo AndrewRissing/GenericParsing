@@ -5,11 +5,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{936F8079-8AE8-4F7A-921C-9E44920F4B9E}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
-		GenericParsing.vsmdi = GenericParsing.vsmdi
 		LICENSE.md = LICENSE.md
-		localtestrun.testrunconfig = localtestrun.testrunconfig
 		README.md = README.md
-		SolutionVersionInfo.cs = SolutionVersionInfo.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericParsing.PerformanceTests", "GenericParsing.PerformanceTests\GenericParsing.PerformanceTests.csproj", "{28A4801F-B624-4AED-9765-B172203EB188}"
