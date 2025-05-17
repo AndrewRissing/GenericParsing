@@ -1804,6 +1804,26 @@ namespace GenericParsing
         /// </summary>
         public event EventHandler Disposed;
 
+        /// <summary>
+        ///   Returns a clone of the current column names, if available.
+        /// </summary>
+        /// <remarks>
+        ///   The property <c>FirstRowHasHeader</c> must be set to <c>true</c>
+        ///   for column names to be available.
+        /// </remarks>
+        /// <returns>
+        ///   A new <see cref="List{String}"/> containing the column names,
+        ///   or <see langword="null"/> if no column names are defined.
+        /// </returns>
+        public List<string> GetColumnNames()
+        {
+            if (this.m_lstColumnNames != null && this.m_blnFirstRowHasHeader &&this.m_lstColumnNames.Count > 0)
+            {
+                return new List<string>(this.m_lstColumnNames);
+            }
+            return null;
+        }
+
         #endregion Public Code
 
         #region Protected Code
