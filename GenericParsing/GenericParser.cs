@@ -1817,7 +1817,7 @@ namespace GenericParsing
         /// </returns>
         public List<string> GetColumnNames()
         {
-            if (this.m_lstColumnNames != null && this.m_blnFirstRowHasHeader &&this.m_lstColumnNames.Count > 0)
+            if (this.m_lstColumnNames != null && this.m_blnFirstRowHasHeader && this.m_lstColumnNames.Count > 0)
             {
                 return new List<string>(this.m_lstColumnNames);
             }
