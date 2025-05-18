@@ -651,6 +651,11 @@ namespace GenericParsing.UnitTests
                     // Checking using integers to index the columns.
                     Assert.Equal(0, parser.GetColumnIndex("a"));
                     Assert.Equal(-1, parser.GetColumnIndex("foobar"));
+
+                    //Checking header columns
+                    Assert.NotNull(parser.GetColumnNames());
+                    Assert.Equal(6, parser.GetColumnNames().Count);
+                    Assert.Equal("a,b,c,d,e,f", String.Join(",", parser.GetColumnNames()));
                 }
 
                 // Check this without a header.
@@ -669,6 +674,9 @@ namespace GenericParsing.UnitTests
                     // Checking using integers to index the columns.
                     Assert.Equal(-1, parser.GetColumnIndex("a"));
                     Assert.Equal(-1, parser.GetColumnIndex("foobar"));
+
+                    // Checking if header columns is null                    
+                    Assert.Null(parser.GetColumnNames());
                 }
             }
 
@@ -1072,6 +1080,11 @@ namespace GenericParsing.UnitTests
                                     Assert.Equal("Column4", parser.GetColumnName(3));
                                     Assert.Equal("Column5", parser.GetColumnName(4));
                                     Assert.Equal("Column6", parser.GetColumnName(5));
+
+                                    //checking the header columns
+                                    Assert.NotNull(parser.GetColumnNames());
+                                    Assert.Equal(6, parser.GetColumnNames().Count);
+                                    Assert.Equal("Column1,Column2,Column3,Column4,Column5,Column6", String.Join(",", parser.GetColumnNames()));
 
                                     intCurrentDataRowIndex = (parser.DataRowNumber - 1) % NUMBER_OF_ROWS_IN_BASE_DATA;
 
